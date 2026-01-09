@@ -870,6 +870,24 @@
     </div>
   </div>
 
+  <!-- Fixed Navbar -->
+  <header
+    id="navbar"
+    class="fixed z-50 flex cursor-pointer top-0 right-0 left-0 items-center justify-between transition-all duration-300"
+    style="background-color: transparent; padding: 32px 60px; opacity: 0; pointer-events: none;">
+    <a href="index.html" class="text-base font-bold text-white tracking-normal">
+      Ganesh Partheeban
+    </a>
+    <nav class="flex gap-8 items-center">
+      <a href="#3-column" class="transition-colors text-base font-bold" style="color: #FFFDF3">
+        Snaps
+      </a>
+      <a href="about.html" class="transition-colors text-base font-bold" style="color: #FFFDF3">
+        About
+      </a>
+    </nav>
+  </header>
+
   <!-- Main Content -->
   <div id="content"
     class="invisible min-h-screen w-full bg-[#FFFDF3] px-6 py-12 opacity-0 transition-opacity duration-1000 ease-out md:px-12 lg:px-24">
@@ -1704,6 +1722,30 @@
           });
         });
       }, 100);
+    });
+
+    // Handle navbar background on scroll
+    const navbar = document.getElementById('navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > 0) {
+        navbar.style.backgroundColor = 'rgba(17, 17, 17, 0.2)';
+        navbar.style.backdropFilter = 'blur(10px)';
+        navbar.style.webkitBackdropFilter = 'blur(10px)';
+        navbar.style.opacity = '1';
+        navbar.style.pointerEvents = 'auto';
+      } else {
+        navbar.style.backgroundColor = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.webkitBackdropFilter = 'none';
+        navbar.style.opacity = '0';
+        navbar.style.pointerEvents = 'none';
+      }
+      
+      lastScrollTop = scrollTop;
     });
   </script>
 
