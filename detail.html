@@ -60,6 +60,11 @@
             object-fit: cover;
             display: block;
         }
+
+        /* Ensure horizontal scrolling works */
+        #gallery-container {
+            min-width: max-content;
+        }
     </style>
 </head>
 
@@ -93,7 +98,7 @@
         </div>
 
         <!-- Bottom Gallery - Left Aligned at bottom -->
-        <div class="absolute bottom-[34px] left-[285px] right-[60px] z-20 overflow-x-auto no-scrollbar">
+        <div id="gallery-scroll-container" class="absolute bottom-[34px] left-[285px] right-[60px] z-20 overflow-x-auto no-scrollbar overflow-y-hidden">
             <div id="gallery-container" class="flex gap-[40px] w-max">
                 <!-- Gallery items will be dynamically inserted here -->
             </div>
@@ -250,6 +255,23 @@
         window.addEventListener('resize', () => {
             positionCategoryLabel();
         });
+
+        // Convert vertical scroll to horizontal scroll for bottom gallery
+        const galleryScrollContainer = document.getElementById('gallery-scroll-container');
+        if (galleryScrollContainer) {
+            galleryScrollContainer.addEventListener('wheel', (e) => {
+                // Check if there's horizontal scroll available
+                const hasHorizontalScroll = galleryScrollContainer.scrollWidth > galleryScrollContainer.clientWidth;
+                
+                if (hasHorizontalScroll) {
+                    // Prevent default vertical scroll
+                    e.preventDefault();
+                    
+                    // Convert vertical scroll to horizontal
+                    galleryScrollContainer.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        }
 
         // Handle browser back button
         window.addEventListener('popstate', () => {
