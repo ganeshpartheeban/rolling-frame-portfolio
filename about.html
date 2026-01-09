@@ -182,8 +182,10 @@
 <body class="min-h-screen w-full antialiased" style="background-color: #000000;">
   <!-- Header -->
   <header
-    class="fixed z-50 flex lg:px-16 cursor-pointer pt-7 pr-8 pb-7 pl-8 top-0 right-0 left-0 items-center justify-between"
-    onclick="window.location.href='about.html'" role="button">
+    id="navbar"
+    class="fixed z-50 flex cursor-pointer top-0 right-0 left-0 items-center justify-between transition-all duration-300"
+    onclick="window.location.href='about.html'" role="button"
+    style="background-color: transparent; padding: 32px 60px;">
     <a href="index.html" class="text-base font-bold text-white tracking-normal">
       Ganesh Partheeban
     </a>
@@ -310,20 +312,6 @@
               style="background: linear-gradient(to right, rgba(171,171,171,0.7), rgba(63,63,63,0.7));"></div>
           </div>
         </a>
-        <!-- Row 3 -->
-        <a href="https://www.aajtak.in/visualstories/news/green-patakhe-diwali-2025-firecracker-guidelines-supreme-court-amlbs-264270-20-10-2025"
-          target="_blank">
-          <div class="group flex cursor-pointer pt-10 pb-10 relative items-center justify-between">
-            <span class="text-3xl font-normal" style="color: #FFFDF3;">
-              Aaj Tak
-            </span>
-            <div
-              class="hidden group-hover:block -translate-y-1/2 -mb-2 bg-gray-400 w-56 h-24 rounded absolute top-1/2 right-0">
-            </div>
-            <div class="absolute bottom-0 left-0 right-0 h-px"
-              style="background: linear-gradient(to right, rgba(171,171,171,0.7), rgba(63,63,63,0.7));"></div>
-          </div>
-        </a>
         <!-- Row 4 -->
         <a href="https://earth.org/data_visualization/how-hurricanes-activity-links-to-climate-change/" target="_blank">
           <div class="group flex items-center justify-between py-10 cursor-pointer relative">
@@ -366,7 +354,7 @@
         <!-- Row 7 -->
         <a href="Publication_Features_Ganesh_Partheeban.pdf" target="_blank">
           <div class="group flex items-center justify-between py-10 cursor-pointer relative">
-            <span class="text-3xl font-normal" style="color: #FFFDF3;">
+            <span class="text-3xl font-bold" style="color: #FFFDF3;">
               View full
             </span>
           </div>
@@ -439,6 +427,28 @@
       </div>
     </div>
   </section>
+
+  <script>
+    // Handle navbar background on scroll
+    const navbar = document.getElementById('navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > 0) {
+        navbar.style.backgroundColor = 'rgba(17, 17, 17, 0.2)';
+        navbar.style.backdropFilter = 'blur(10px)';
+        navbar.style.webkitBackdropFilter = 'blur(10px)';
+      } else {
+        navbar.style.backgroundColor = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.webkitBackdropFilter = 'none';
+      }
+      
+      lastScrollTop = scrollTop;
+    });
+  </script>
 
 </body>
 
