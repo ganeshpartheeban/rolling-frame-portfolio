@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganesh Partheeban | Cinematographer</title>
+  <title>Ganesh Partheeban | Photographer | Cinematographer | Workfolio - Tech Lead </title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
@@ -234,6 +235,89 @@
     .projector-light {
       background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
       animation: flicker 0.1s infinite;
+    }
+
+    /* Image Modal Styles */
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .image-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 95vw;
+      max-height: 95vh;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .image-modal.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-image {
+      max-width: 100%;
+      max-height: 95vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #FFFDF3;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    .modal-close svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Make images clickable */
+    .gallery-image {
+      cursor: pointer;
     }
   </style>
   <link id="all-fonts-link-font-geist" rel="stylesheet"
@@ -773,6 +857,19 @@
     </div>
   </div>
 
+  <!-- Image Modal -->
+  <div id="imageModal" class="image-modal">
+    <div class="modal-backdrop" onclick="closeImageModal()"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeImageModal()" aria-label="Close modal">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <img id="modalImage" src="" alt="" class="modal-image">
+    </div>
+  </div>
+
   <!-- Main Content -->
   <div id="content"
     class="invisible min-h-screen w-full bg-[#FFFDF3] px-6 py-12 opacity-0 transition-opacity duration-1000 ease-out md:px-12 lg:px-24">
@@ -794,183 +891,576 @@
       </div>
       <div class="flex flex-col gap-4">
         <p class="text-xl font-light tracking-wide text-neutral-500">
-          Landscape
+          Photography Portfolio
         </p>
-        <!-- <div class="flex items-center gap-4">
-          <button class="hover:text-neutral-900 transition-colors text-neutral-600 pt-1 pr-1 pb-1 pl-1"
-            title="Grid view">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              data-lucide="grid-2x2" class="lucide lucide-grid-2x2 w-5 h-5">
-              <path d="M12 3v18"></path>
-              <path d="M3 12h18"></path>
-              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-            </svg>
-          </button>
-          <button class="p-1 text-neutral-600 hover:text-neutral-900 transition-colors" title="Three column view">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              data-lucide="columns-3" class="lucide lucide-columns-3 w-5 h-5">
-              <rect width="18" height="18" x="3" y="3" rx="2" class=""></rect>
-              <path d="M9 3v18" class=""></path>
-              <path d="M15 3v18" class=""></path>
-            </svg>
-          </button>
-        </div> -->
       </div>
     </header>
 
-    <!-- Masonry Grid -->
-    <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+    <!-- Aviation Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-medium text-neutral-900 mb-6 fade-in-up">Aviation</h2>
+      <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-0dWMTeP0VP8-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
           </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/6772480a-30d7-4166-bb78-ad8b0597da4b_3840w.jpg"
-            alt="Planes"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
-            style="">
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-51IfbKKcv3g-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-A9pIo2VEI5A-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-AbozKM2qua4-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-BmSE_5BOuJM-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-DcPgeWcb8lE-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-JMJHHPcWJ-U-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-L6N2AzlUaoc-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-R3QUGXCz3Hw-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-SXCewxbY9_o-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-aoz-whCXwDQ-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-fsdg4sXzNYk-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-mIPW_MxLPHg-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-tzfpXye2Qj0-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-xJMx38ObuoE-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Aviation/ganesh-partheeban-z4wQgGY2zWA-unsplash.jpg" alt="Aviation"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+    <!-- Fireworks Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-medium text-neutral-900 mb-6 fade-in-up">Fireworks</h2>
+      <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban--ZwLWPkFrqI-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
           </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/e0b865c0-8b18-4216-b141-21dd5cd7bf74_3840w.jpg"
-            alt="Landscape"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
-            style="">
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban--ziGmOXibjk-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-3uF3A_4x5wY-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-9tly6fz0iCU-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-A63WhmFz7GA-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-HHV5knT1AQs-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-KH44xwSGXjI-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-Rd7neln3Ymo-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-XJWEiVo8H2g-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-hrsnLfqq5cY-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-okbSewFDplU-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-xpBV-T4z0Uo-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-xsGzXSMlapw-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Fireworks/ganesh-partheeban-yqTLE5Yd65Q-unsplash.jpg" alt="Fireworks"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+    <!-- Landscape Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-medium text-neutral-900 mb-6 fade-in-up">Landscape</h2>
+      <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban--ZKb2pjWQZ0-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
           </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/216089df-8698-4d8d-bac6-c08eaa56727f_3840w.jpg"
-            alt="Leaves"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
-            style="">
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-039ANehSz_w-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-F7CrmlUrzkE-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-IUSP9qQk3Q0-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-Kjt-xS4f3_8-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-NCiQTt0o3J0-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-PZh1xQ04Yog-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-XKmapuDimo4-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-aLP_ea3ikGI-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-vA8ljBvUWT4-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-wmz3dXlWgUg-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-y_z1jfVcgnk-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Landscape/ganesh-partheeban-zSsAkjFgaqI-unsplash.jpg" alt="Landscape"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+    <!-- Macro Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-medium text-neutral-900 mb-6 fade-in-up">Macro</h2>
+      <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-0noqzGcyt7I-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
           </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/aa8fbd6a-c600-4eba-8564-2c5a06a8c751_1600w.jpg"
-            alt="Fashion"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
-            style="">
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-1-h8HFcdAOY-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-67iefYjS9BI-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-EIhkyKPh4-0-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-Ezb4rNmgVEo-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-OPmLJ8Cso1Q-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-UKY0PHDqnUc-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-crfSsyKvNxA-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-pjmd_Rt3gpk-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Macro/ganesh-partheeban-ynTxSkpGdTk-unsplash.jpg" alt="Macro"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+    <!-- Silhoutte Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-medium text-neutral-900 mb-6 fade-in-up">Silhouette</h2>
+      <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Silhoutte/ganesh-partheeban-Q7ep7cVpyqY-unsplash.jpg" alt="Silhouette"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
           </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/92ea9121-b149-4a76-abe8-20b34d1a42a8_800w.jpg"
-            alt="Sparkler"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Silhoutte/ganesh-partheeban-Z671eKdqy6s-unsplash.jpg" alt="Silhouette"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Silhoutte/ganesh-partheeban-ZNsF4vb-xJc-unsplash.jpg" alt="Silhouette"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Silhoutte/ganesh-partheeban-iPodlXI5BIM-unsplash.jpg" alt="Silhouette"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Silhoutte/ganesh-partheeban-js-ecwqcgow-unsplash.jpg" alt="Silhouette"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
+        </div>
+        <div class="break-inside-avoid fade-in-up">
+          <div class="group relative overflow-hidden rounded bg-neutral-100">
+            <div
+              class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+            </div>
+            <img src="../Documents/Silhoutte/ganesh-partheeban-vByC7S7hzD8-unsplash.jpg" alt="Silhouette"
+              class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+          </div>
         </div>
       </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5624966c-7b56-4c98-be91-728b4215cbfa_800w.jpg"
-            alt="Night"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
-        </div>
-      </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/3260b96d-0cce-4a16-95bc-f4ba8e2d5285_800w.jpg"
-            alt="Fireworks"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
-        </div>
-      </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/04687aaa-444c-437c-bb1f-09559727bca2_800w.jpg"
-            alt="Forest"
-            class="h-auto w-full object-cover grayscale-[40%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
-            style="">
-        </div>
-      </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/b308ac4f-daa3-4c44-8d9f-95fef1883ef4_800w.jpg"
-            alt="Ocean"
-            class="h-auto w-full object-cover grayscale transition-all duration-1000 ease-out group-hover:scale-105">
-        </div>
-      </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/10f08a09-4d13-4613-bce5-c822c7727fe2_800w.jpg"
-            alt="Formation"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
-        </div>
-      </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/099f39b4-7f4f-4183-b002-bec107c4a5e7_800w.jpg"
-            alt="Duck"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
-        </div>
-      </div>
-
-      <div class="break-inside-avoid fade-in-up">
-        <div class="group relative overflow-hidden rounded bg-neutral-100">
-          <div
-            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
-          </div>
-          <img
-            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/d368b871-44d2-49bd-b0d2-699aa317efee_800w.jpg"
-            alt="Mountains"
-            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
-        </div>
-      </div>
-    </div>
+    </section>
 
     <footer class="mt-32 border-t border-neutral-200 pb-12 pt-12">
       <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -1168,6 +1658,52 @@
       setTimeout(() => {
         requestAnimationFrame(animate);
       }, 500);
+    });
+
+    // Image Modal Functions
+    function openImageModal(imageSrc, imageAlt) {
+      const modal = document.getElementById('imageModal');
+      const modalImage = document.getElementById('modalImage');
+
+      modalImage.src = imageSrc;
+      modalImage.alt = imageAlt;
+
+      // Add active class after a brief delay for animation
+      setTimeout(() => {
+        modal.classList.add('active');
+      }, 10);
+
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+
+      // Re-enable body scroll
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeImageModal();
+      }
+    });
+
+    // Add click handlers to all gallery images
+    document.addEventListener('DOMContentLoaded', () => {
+      // Wait for content to be visible before adding handlers
+      setTimeout(() => {
+        const galleryImages = document.querySelectorAll('section img');
+        galleryImages.forEach(img => {
+          img.classList.add('gallery-image');
+          img.addEventListener('click', () => {
+            openImageModal(img.src, img.alt);
+          });
+        });
+      }, 100);
     });
   </script>
 
