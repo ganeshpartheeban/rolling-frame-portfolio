@@ -177,6 +177,20 @@
       font-family: 'DM Sans', sans-serif !important;
     }
   </style>
+  <style>
+    /* Glassmorphism scroll effect */
+    header {
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    header.glass-header {
+      background-color: rgba(0, 0, 0, 0.10);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      /* Subtle border matching the text color */
+      border-bottom: 1px solid rgba(255, 253, 243, 0.1);
+    }
+  </style>
 </head>
 
 <body class="min-h-screen w-full antialiased" style="background-color: #000000;">
@@ -219,18 +233,22 @@
       <!-- Stats -->
       <div class="flex flex-col sm:flex-row items-start gap-12 sm:gap-32 lg:gap-44">
         <div class="flex flex-col" style="margin: 0; padding: 0;">
-          <span class="text-6xl font-extrabold text-white" style="line-height: 100%; display: block; margin: 0; padding: 0; vertical-align: baseline;">
+          <span class="text-6xl font-extrabold text-white"
+            style="line-height: 100%; display: block; margin: 0; padding: 0; vertical-align: baseline;">
             6M+
           </span>
-          <span class="text-xl font-normal" style="color: #FFFDF3; line-height: 100%; display: block; margin: 0; padding: 0; margin-top: 4px; vertical-align: baseline;">
+          <span class="text-xl font-normal"
+            style="color: #FFFDF3; line-height: 100%; display: block; margin: 0; padding: 0; margin-top: 4px; vertical-align: baseline;">
             Unsplash views
           </span>
         </div>
         <div class="flex flex-col" style="margin: 0; padding: 0;">
-          <span class="text-6xl font-extrabold text-white" style="line-height: 100%; display: block; margin: 0; padding: 0; vertical-align: baseline;">
+          <span class="text-6xl font-extrabold text-white"
+            style="line-height: 100%; display: block; margin: 0; padding: 0; vertical-align: baseline;">
             50K+
           </span>
-          <span class="text-xl font-normal" style="color: #FFFDF3; line-height: 100%; display: block; margin: 0; padding: 0; margin-top: 4px; vertical-align: baseline;">
+          <span class="text-xl font-normal"
+            style="color: #FFFDF3; line-height: 100%; display: block; margin: 0; padding: 0; margin-top: 4px; vertical-align: baseline;">
             Unsplash downloads
           </span>
         </div>
@@ -382,7 +400,8 @@
       <div class="flex flex-col w-full">
         <!-- Row 1 -->
         <div class="flex items-center justify-between py-10 relative">
-          <span class="text-3xl font-normal max-w-2xl" style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <span class="text-3xl font-normal max-w-2xl"
+            style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             Born in Chennai, Tamil Nadu, India
           </span>
           <span class="text-3xl font-normal" style="color: #FFFDF3;">
@@ -393,7 +412,8 @@
         </div>
         <!-- Row 2 -->
         <div class="flex items-center justify-between py-10 relative">
-          <span class="text-3xl font-normal max-w-2xl" style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <span class="text-3xl font-normal max-w-2xl"
+            style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             Started capturing moments on a point and shoot camera
           </span>
           <span class="text-3xl font-normal" style="color: #FFFDF3;">
@@ -404,7 +424,8 @@
         </div>
         <!-- Row 3 -->
         <div class="flex items-center justify-between py-10 relative">
-          <span class="text-3xl font-normal max-w-2xl" style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <span class="text-3xl font-normal max-w-2xl"
+            style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             Graduated from Hindustan University, Chennai, Computer Science
             &amp; Engineering
           </span>
@@ -416,7 +437,8 @@
         </div>
         <!-- Row 4 -->
         <div class="flex items-center justify-between py-10 relative">
-          <span class="text-3xl font-normal max-w-2xl" style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <span class="text-3xl font-normal max-w-2xl"
+            style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             Started work at Workfolio as Full Stack Developer
           </span>
           <span class="text-3xl font-normal" style="color: #FFFDF3;">
@@ -427,7 +449,8 @@
         </div>
         <!-- Row 5 -->
         <div class="flex items-center justify-between py-10 relative">
-          <span class="text-3xl font-normal max-w-2xl" style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <span class="text-3xl font-normal max-w-2xl"
+            style="color: #FFFDF3; line-height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             Tech Lead
 
             Pursuing Cinematography &amp; Photography
@@ -440,6 +463,23 @@
     </div>
   </section>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector('header');
+
+      const handleScroll = () => {
+        if (window.scrollY > 20) {
+          header.classList.add('glass-header');
+        } else {
+          header.classList.remove('glass-header');
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      // Initial check in case page is reloaded while scrolled
+      handleScroll();
+    });
+  </script>
 </body>
 
 </html>
