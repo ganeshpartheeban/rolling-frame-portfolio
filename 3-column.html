@@ -168,14 +168,11 @@
 
 <body class="bg-black text-white h-screen w-full overflow-hidden">
   <!-- Grid Container -->
-  <!-- Modified to 20% - 60% - 20% ratio (1fr 3fr 1fr) while maintaining the gap separators -->
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] h-full w-full gap-4 bg-black">
-    <!-- Left Column (20%) -->
+    <!-- Left Column (20%) - Previous Image + Category Text -->
     <div class="relative h-full w-full bg-black group overflow-hidden">
-      <!-- Background Image with Opacity Logic -->
-      <img
-        src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&amp;w=1964&amp;auto=format&amp;fit=crop"
-        alt="Dark Fluid Art Left"
+      <!-- Background Image (Previous) -->
+      <img id="prevImage" src="" alt="Previous"
         class="group-hover:opacity-80 transition-opacity duration-500 ease-out opacity-50 w-full h-full object-cover absolute top-0 right-0 bottom-0 left-0">
 
       <!-- Content Overlay -->
@@ -184,9 +181,10 @@
           class="text-lg font-semibold tracking-tight pointer-events-auto hover:text-gray-300 transition-colors">
           Ganesh Partheeban
         </a>
-        <!-- Middle Text -->
+        <!-- Category Text -->
         <div class="flex-1 flex items-center">
-          <h2 class="text-2xl font-medium tracking-tight pointer-events-auto cursor-pointer">
+          <h2 id="categoryText"
+            class="text-2xl font-medium tracking-tight pointer-events-auto cursor-pointer transition-all duration-200">
             Landscape
           </h2>
         </div>
@@ -196,27 +194,24 @@
       </div>
     </div>
 
-    <!-- Center Column (60%) -->
+    <!-- Center Column (60%) - Current Image -->
     <div class="relative h-full w-full bg-gray-100 overflow-hidden">
-      <!-- Full Visibility Image -->
-      <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&amp;w=1964&amp;auto=format&amp;fit=crop"
-        alt="Abstract Blue Pink Painting" class="absolute inset-0 w-full h-full object-cover">
+      <img id="currentImage" src="" alt="Current"
+        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300">
     </div>
 
-    <!-- Right Column (20%) -->
+    <!-- Right Column (20%) - Next Image -->
     <div class="relative h-full w-full bg-black group overflow-hidden">
-      <!-- Background Image -->
-      <img
-        src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&amp;w=1964&amp;auto=format&amp;fit=crop"
-        alt="Dark Fluid Art Right"
-        class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500 ease-out scale-x-[-1]">
+      <!-- Background Image (Next) -->
+      <img id="nextImage" src="" alt="Next"
+        class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500 ease-out">
 
       <!-- Content Overlay -->
       <div class="absolute inset-0 p-8 flex justify-end items-start gap-6 z-10">
         <a href="index.html" class="hover:text-gray-300 transition-colors text-base font-normal">
           Snaps
         </a>
-        <a href="#" class="text-base font-normal hover:text-gray-300 transition-colors">
+        <a href="about.html" class="text-base font-normal hover:text-gray-300 transition-colors">
           About
         </a>
       </div>
@@ -224,6 +219,207 @@
   </div>
 
   <script>
+    // Image data structure organized by category
+    const categories = [
+      {
+        name: 'Landscape',
+        images: [
+          'Landscape/ganesh-partheeban--ZKb2pjWQZ0-unsplash.jpg',
+          'Landscape/ganesh-partheeban-039ANehSz_w-unsplash.jpg',
+          'Landscape/ganesh-partheeban-F7CrmlUrzkE-unsplash.jpg',
+          'Landscape/ganesh-partheeban-IUSP9qQk3Q0-unsplash.jpg',
+          'Landscape/ganesh-partheeban-Kjt-xS4f3_8-unsplash.jpg',
+          'Landscape/ganesh-partheeban-NCiQTt0o3J0-unsplash.jpg',
+          'Landscape/ganesh-partheeban-PZh1xQ04Yog-unsplash.jpg',
+          'Landscape/ganesh-partheeban-XKmapuDimo4-unsplash.jpg',
+          'Landscape/ganesh-partheeban-aLP_ea3ikGI-unsplash.jpg',
+          'Landscape/ganesh-partheeban-vA8ljBvUWT4-unsplash.jpg',
+          'Landscape/ganesh-partheeban-wmz3dXlWgUg-unsplash.jpg',
+          'Landscape/ganesh-partheeban-y_z1jfVcgnk-unsplash.jpg',
+          'Landscape/ganesh-partheeban-zSsAkjFgaqI-unsplash.jpg'
+        ]
+      },
+      {
+        name: 'Aviation',
+        images: [
+          'Aviation/ganesh-partheeban-0dWMTeP0VP8-unsplash.jpg',
+          'Aviation/ganesh-partheeban-51IfbKKcv3g-unsplash.jpg',
+          'Aviation/ganesh-partheeban-A9pIo2VEI5A-unsplash.jpg',
+          'Aviation/ganesh-partheeban-AbozKM2qua4-unsplash.jpg',
+          'Aviation/ganesh-partheeban-BmSE_5BOuJM-unsplash.jpg',
+          'Aviation/ganesh-partheeban-DcPgeWcb8lE-unsplash.jpg',
+          'Aviation/ganesh-partheeban-JMJHHPcWJ-U-unsplash.jpg',
+          'Aviation/ganesh-partheeban-L6N2AzlUaoc-unsplash.jpg',
+          'Aviation/ganesh-partheeban-R3QUGXCz3Hw-unsplash.jpg',
+          'Aviation/ganesh-partheeban-SXCewxbY9_o-unsplash.jpg',
+          'Aviation/ganesh-partheeban-aoz-whCXwDQ-unsplash.jpg',
+          'Aviation/ganesh-partheeban-fsdg4sXzNYk-unsplash.jpg',
+          'Aviation/ganesh-partheeban-mIPW_MxLPHg-unsplash.jpg',
+          'Aviation/ganesh-partheeban-tzfpXye2Qj0-unsplash.jpg',
+          'Aviation/ganesh-partheeban-xJMx38ObuoE-unsplash.jpg',
+          'Aviation/ganesh-partheeban-z4wQgGY2zWA-unsplash.jpg'
+        ]
+      },
+      {
+        name: 'Fireworks',
+        images: [
+          'Fireworks/ganesh-partheeban--ZwLWPkFrqI-unsplash.jpg',
+          'Fireworks/ganesh-partheeban--ziGmOXibjk-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-3uF3A_4x5wY-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-9tly6fz0iCU-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-A63WhmFz7GA-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-HHV5knT1AQs-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-KH44xwSGXjI-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-Rd7neln3Ymo-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-XJWEiVo8H2g-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-hrsnLfqq5cY-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-okbSewFDplU-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-xpBV-T4z0Uo-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-xsGzXSMlapw-unsplash.jpg',
+          'Fireworks/ganesh-partheeban-yqTLE5Yd65Q-unsplash.jpg'
+        ]
+      },
+      {
+        name: 'Macro',
+        images: [
+          'Macro/ganesh-partheeban-0noqzGcyt7I-unsplash.jpg',
+          'Macro/ganesh-partheeban-1-h8HFcdAOY-unsplash.jpg',
+          'Macro/ganesh-partheeban-67iefYjS9BI-unsplash.jpg',
+          'Macro/ganesh-partheeban-crfSsyKvNxA-unsplash.jpg',
+          'Macro/ganesh-partheeban-EIhkyKPh4-0-unsplash.jpg',
+          'Macro/ganesh-partheeban-Ezb4rNmgVEo-unsplash.jpg',
+          'Macro/ganesh-partheeban-OPmLJ8Cso1Q-unsplash.jpg',
+          'Macro/ganesh-partheeban-pjmd_Rt3gpk-unsplash.jpg',
+          'Macro/ganesh-partheeban-UKY0PHDqnUc-unsplash.jpg',
+          'Macro/ganesh-partheeban-ynTxSkpGdTk-unsplash.jpg'
+        ]
+      },
+      {
+        name: 'Silhouette',
+        images: [
+          'Silhoutte/ganesh-partheeban-Q7ep7cVpyqY-unsplash.jpg',
+          'Silhoutte/ganesh-partheeban-Z671eKdqy6s-unsplash.jpg',
+          'Silhoutte/ganesh-partheeban-ZNsF4vb-xJc-unsplash.jpg',
+          'Silhoutte/ganesh-partheeban-iPodlXI5BIM-unsplash.jpg',
+          'Silhoutte/ganesh-partheeban-js-ecwqcgow-unsplash.jpg',
+          'Silhoutte/ganesh-partheeban-vByC7S7hzD8-unsplash.jpg'
+        ]
+      }
+    ];
+
+    // Flatten all images into a single array with category info
+    const allImages = [];
+    categories.forEach(category => {
+      category.images.forEach(imagePath => {
+        allImages.push({
+          path: imagePath,
+          category: category.name
+        });
+      });
+    });
+
+    // State management
+    let currentImageIndex = 0;
+    const totalImages = allImages.length;
+
+    // DOM elements
+    const prevImageEl = document.getElementById('prevImage');
+    const currentImageEl = document.getElementById('currentImage');
+    const nextImageEl = document.getElementById('nextImage');
+    const categoryTextEl = document.getElementById('categoryText');
+
+    // Helper function to get image at index (with wrapping)
+    function getImageAtIndex(index) {
+      if (index < 0) return allImages[totalImages - 1];
+      if (index >= totalImages) return allImages[0];
+      return allImages[index];
+    }
+
+    // Update all panels
+    function updatePanels() {
+      const current = getImageAtIndex(currentImageIndex);
+      const prev = getImageAtIndex(currentImageIndex - 1);
+      const next = getImageAtIndex(currentImageIndex + 1);
+
+      // Update images
+      currentImageEl.src = current.path;
+      prevImageEl.src = prev.path;
+      nextImageEl.src = next.path;
+
+      // Update category text
+      categoryTextEl.textContent = current.category;
+    }
+
+    // Navigation functions
+    function navigateForward() {
+      currentImageIndex = (currentImageIndex + 1) % totalImages;
+      updatePanels();
+    }
+
+    function navigateBackward() {
+      currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+      updatePanels();
+    }
+
+    // Scroll handler with debouncing
+    let scrollTimeout;
+    let isScrolling = false;
+
+    window.addEventListener('wheel', (e) => {
+      e.preventDefault();
+
+      // Prevent rapid scrolling
+      if (isScrolling) return;
+
+      const delta = e.deltaY || e.deltaX;
+
+      // Only trigger on significant scroll
+      if (Math.abs(delta) > 10) {
+        isScrolling = true;
+
+        if (delta > 0) {
+          navigateForward();
+        } else {
+          navigateBackward();
+        }
+
+        // Reset scrolling flag after delay
+        setTimeout(() => {
+          isScrolling = false;
+        }, 300);
+      }
+    }, { passive: false });
+
+    // Keyboard navigation (optional enhancement)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        navigateForward();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        navigateBackward();
+      }
+    });
+
+    // Initialize
+    updatePanels();
+
+    // Preload adjacent images for smooth transitions
+    function preloadImages() {
+      const imagesToPreload = [
+        getImageAtIndex(currentImageIndex + 2),
+        getImageAtIndex(currentImageIndex - 2)
+      ];
+
+      imagesToPreload.forEach(img => {
+        const preloadImg = new Image();
+        preloadImg.src = img.path;
+      });
+    }
+
+    // Preload on every update
+    setInterval(preloadImages, 1000);
+
     lucide.createIcons();
   </script>
 
