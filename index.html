@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganesh Partheeban | Cinematographer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0a;
+      color: #171717;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #A3A3A3;
+      border-radius: 3px;
+    }
+
+    body.loading {
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Film Strip Styles */
+    .film-strip {
+      background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .sprocket-hole {
+      background: radial-gradient(ellipse at center, #FFFDF3 60%, #f5f3e8 100%);
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.1);
+      border: 1px solid #1a1a1a;
+    }
+
+    .film-frame {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
+      box-shadow:
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Canister Styles */
+    .canister {
+      background: conic-gradient(from 0deg,
+          #2a2a2a 0deg,
+          #1a1a1a 30deg,
+          #3a3a3a 60deg,
+          #1a1a1a 90deg,
+          #2a2a2a 120deg,
+          #1a1a1a 150deg,
+          #3a3a3a 180deg,
+          #1a1a1a 210deg,
+          #2a2a2a 240deg,
+          #1a1a1a 270deg,
+          #3a3a3a 300deg,
+          #1a1a1a 330deg,
+          #2a2a2a 360deg);
+      box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.4),
+        0 0 80px rgba(0, 0, 0, 0.2),
+        inset 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .canister-ring {
+      background: linear-gradient(90deg, #4a4a4a, #2a2a2a, #4a4a4a);
+      box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .canister-center {
+      background: radial-gradient(circle at 30% 30%, #4a4a4a, #1a1a1a 60%, #0a0a0a);
+      box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.9),
+        0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Film curl effect */
+    .film-curl {
+      transform-origin: left center;
+    }
+
+    /* Wobble animation for natural movement */
+    @keyframes wobble {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-3px) rotate(0.5deg);
+      }
+
+      50% {
+        transform: translateY(2px) rotate(-0.3deg);
+      }
+
+      75% {
+        transform: translateY(-1px) rotate(0.2deg);
+      }
+    }
+
+    @keyframes filmShake {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      10% {
+        transform: translateY(-2px) rotate(0.1deg);
+      }
+
+      20% {
+        transform: translateY(1px) rotate(-0.1deg);
+      }
+
+      30% {
+        transform: translateY(-1px);
+      }
+
+      40% {
+        transform: translateY(2px) rotate(0.05deg);
+      }
+
+      50% {
+        transform: translateY(-1px) rotate(-0.05deg);
+      }
+
+      60% {
+        transform: translateY(1px);
+      }
+
+      70% {
+        transform: translateY(-2px) rotate(0.1deg);
+      }
+
+      80% {
+        transform: translateY(1px) rotate(-0.1deg);
+      }
+
+      90% {
+        transform: translateY(-1px);
+      }
+    }
+
+    .film-wobble {
+      animation: wobble 0.3s ease-in-out infinite;
+    }
+
+    /* Dust particles */
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(-100px) translateX(50px) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    .dust-particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Film grain overlay */
+    .film-grain {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.02;
+      pointer-events: none;
+    }
+
+    /* Projector light flicker */
+    @keyframes flicker {
+
+      0%,
+      100% {
+        opacity: 0.02;
+      }
+
+      50% {
+        opacity: 0.04;
+      }
+    }
+
+    .projector-light {
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+      animation: flicker 0.1s infinite;
+    }
+  </style>
+  <link id="all-fonts-link-font-geist" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-geist">
+    .font-geist {
+      font-family: 'Geist', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-roboto" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-roboto">
+    .font-roboto {
+      font-family: 'Roboto', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-montserrat" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-montserrat">
+    .font-montserrat {
+      font-family: 'Montserrat', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-poppins" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-poppins">
+    .font-poppins {
+      font-family: 'Poppins', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-playfair" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&amp;display=swap">
+  <style id="all-fonts-style-font-playfair">
+    .font-playfair {
+      font-family: 'Playfair Display', serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-instrument-serif" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-instrument-serif">
+    .font-instrument-serif {
+      font-family: 'Instrument Serif', serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-merriweather" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&amp;display=swap">
+  <style id="all-fonts-style-font-merriweather">
+    .font-merriweather {
+      font-family: 'Merriweather', serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-bricolage" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-bricolage">
+    .font-bricolage {
+      font-family: 'Bricolage Grotesque', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-jakarta" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap">
+  <style id="all-fonts-style-font-jakarta">
+    .font-jakarta {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-manrope" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap">
+  <style id="all-fonts-style-font-manrope">
+    .font-manrope {
+      font-family: 'Manrope', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-space-grotesk" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-space-grotesk">
+    .font-space-grotesk {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-work-sans" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&amp;display=swap">
+  <style id="all-fonts-style-font-work-sans">
+    .font-work-sans {
+      font-family: 'Work Sans', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-pt-serif" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&amp;display=swap">
+  <style id="all-fonts-style-font-pt-serif">
+    .font-pt-serif {
+      font-family: 'PT Serif', serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-geist-mono" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-geist-mono">
+    .font-geist-mono {
+      font-family: 'Geist Mono', monospace !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-space-mono" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap">
+  <style id="all-fonts-style-font-space-mono">
+    .font-space-mono {
+      font-family: 'Space Mono', monospace !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-quicksand" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-quicksand">
+    .font-quicksand {
+      font-family: 'Quicksand', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-nunito" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&amp;display=swap">
+  <style id="all-fonts-style-font-nunito">
+    .font-nunito {
+      font-family: 'Nunito', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-newsreader" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..800&amp;display=swap">
+  <style id="all-fonts-style-font-newsreader">
+    .font-newsreader {
+      font-family: 'Newsreader', serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-google-sans-flex" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-google-sans-flex">
+    .font-google-sans-flex {
+      font-family: 'Google Sans Flex', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-oswald" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-oswald">
+    .font-oswald {
+      font-family: 'Oswald', sans-serif !important;
+    }
+  </style>
+  <link id="all-fonts-link-font-dm-sans" rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&amp;display=swap">
+  <style id="all-fonts-style-font-dm-sans">
+    .font-dm-sans {
+      font-family: 'DM Sans', sans-serif !important;
+    }
+  </style>
+</head>
+
+<body class="loading text-lg font-light antialiased selection:bg-neutral-200 selection:text-black">
+  <!-- Film Loader -->
+  <div id="loader" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#FFFDF3]">
+    <!-- Projector Light Effect -->
+    <div class="projector-light absolute top-0 right-0 bottom-0 left-0"></div>
+
+    <!-- Film Grain Overlay -->
+    <div class="film-grain absolute inset-0"></div>
+
+    <!-- Dust Particles Container -->
+    <div id="dust-container" class="absolute inset-0 pointer-events-none">
+      <div class="dust-particle"
+        style="left: 97.1438%; top: 93.6974%; animation: 6.38911s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 31.2853%; top: 28.4103%; animation: 6.05569s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 9.52244%; top: 17.0002%; animation: 5.14138s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 44.5866%; top: 47.237%; animation: 5.8494s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 85.9177%; top: 74.0693%; animation: 5.58301s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 92.9206%; top: 6.87522%; animation: 3.18278s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 36.6253%; top: 41.7563%; animation: 5.81504s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 27.3028%; top: 99.0339%; animation: 6.64338s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 92.2337%; top: 20.2614%; animation: 6.94695s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 34.8549%; top: 6.95604%; animation: 6.28341s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 18.7699%; top: 66.4833%; animation: 6.16348s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 65.6026%; top: 68.2449%; animation: 3.88852s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 31.1169%; top: 22.6452%; animation: 5.29135s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 75.81%; top: 56.455%; animation: 3.06021s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 1.60198%; top: 37.5878%; animation: 5.73984s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 5.49278%; top: 84.5499%; animation: 6.92122s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 74.8081%; top: 61.2622%; animation: 3.11674s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 90.7202%; top: 79.174%; animation: 6.87513s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 54.1117%; top: 17.8564%; animation: 5.99082s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 45.1962%; top: 45.7256%; animation: 4.45767s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 8.39812%; top: 11.2201%; animation: 5.98112s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 15.7114%; top: 61.8346%; animation: 3.70792s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 67.9687%; top: 27.8569%; animation: 4.30052s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 95.6502%; top: 74.7343%; animation: 4.359s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 70.87%; top: 72.5768%; animation: 6.16702s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 23.8968%; top: 86.9082%; animation: 4.16715s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 14.3919%; top: 23.9933%; animation: 5.77521s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 93.2702%; top: 30.8539%; animation: 6.23877s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 19.8501%; top: 39.6048%; animation: 6.9629s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 96.8149%; top: 20.7859%; animation: 3.7312s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 56.4789%; top: 45.6316%; animation: 3.54373s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 1.90266%; top: 58.6316%; animation: 5.85492s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 99.9045%; top: 94.899%; animation: 4.21741s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 89.2428%; top: 68.8688%; animation: 5.16964s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 1.14007%; top: 75.1328%; animation: 5.99217s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 88.54%; top: 97.243%; animation: 4.5222s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 4.54534%; top: 34.6262%; animation: 5.28842s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 36.3024%; top: 77.8321%; animation: 4.47542s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 5.795%; top: 48.604%; animation: 6.90699s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 17.5558%; top: 18.878%; animation: 5.1636s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 44.5619%; top: 10.2697%; animation: 4.26092s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 85.7888%; top: 33.3977%; animation: 4.38084s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 95.3437%; top: 94.5291%; animation: 4.55807s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 38.2638%; top: 53.2852%; animation: 3.81293s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 1.2173%; top: 65.799%; animation: 4.39821s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 45.0616%; top: 14.2685%; animation: 6.10274s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 56.0504%; top: 41.8012%; animation: 4.49573s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 86.8579%; top: 63.3802%; animation: 5.59s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 39.6139%; top: 16.2619%; animation: 4.93368s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 52.3846%; top: 81.7374%; animation: 6.84679s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 58.48%; top: 13.6182%; animation: 6.09749s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 96.883%; top: 35.3686%; animation: 3.84721s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 94.3643%; top: 89.4476%; animation: 3.50981s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 1.022%; top: 43.2622%; animation: 4.09649s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 37.9846%; top: 61.2724%; animation: 3.6979s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 30.5232%; top: 87.3261%; animation: 3.3986s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 26.6985%; top: 62.3404%; animation: 4.41541s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 60.79%; top: 51.656%; animation: 3.31198s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 45.4599%; top: 75.9016%; animation: 4.12437s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 16.1995%; top: 2.31423%; animation: 5.28922s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 31.29%; top: 42.2669%; animation: 6.34684s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 60.2182%; top: 26.2278%; animation: 5.61487s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 23.779%; top: 2.12953%; animation: 6.10562s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 64.7164%; top: 48.2881%; animation: 4.12539s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 96.2259%; top: 51.2153%; animation: 6.59362s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 92.1493%; top: 55.4079%; animation: 6.97404s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 43.5469%; top: 83.227%; animation: 4.189s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 64.7228%; top: 29.0481%; animation: 4.36782s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 56.8085%; top: 44.8868%; animation: 6.81223s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 30.4583%; top: 27.7455%; animation: 5.60433s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 92.5919%; top: 47.3119%; animation: 6.96049s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 54.7477%; top: 79.4726%; animation: 6.44204s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 77.0013%; top: 5.0849%; animation: 3.94912s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 59.6808%; top: 36.324%; animation: 3.2609s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 73.8524%; top: 91.6563%; animation: 4.73836s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 83.805%; top: 40.259%; animation: 4.0813s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 47.7012%; top: 86.2706%; animation: 3.96027s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 52.1881%; top: 92.0066%; animation: 4.32959s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 76.6662%; top: 7.06394%; animation: 4.60677s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 6.31734%; top: 48.9513%; animation: 5.65334s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 79.0889%; top: 30.9819%; animation: 4.63425s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 87.5944%; top: 23.8745%; animation: 3.14595s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 24.6167%; top: 40.0868%; animation: 5.8288s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 42.409%; top: 5.32938%; animation: 6.64902s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 15.5276%; top: 18.9572%; animation: 3.49726s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 17.4535%; top: 7.68105%; animation: 3.03745s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 29.5198%; top: 80.379%; animation: 4.60965s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 68.4827%; top: 2.53529%; animation: 4.52129s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 93.4952%; top: 88.7445%; animation: 4.67096s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 29.8114%; top: 38.5007%; animation: 3.42072s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 2.82314%; top: 21.4342%; animation: 4.42036s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 94.0734%; top: 95.1457%; animation: 5.25411s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 37.4672%; top: 32.1948%; animation: 6.7507s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 40.6844%; top: 86.6106%; animation: 6.35975s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 4.65233%; top: 62.6088%; animation: 3.20027s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 89.2462%; top: 24.7899%; animation: 3.07234s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 82.9199%; top: 57.3513%; animation: 6.30645s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 83.1609%; top: 10.1954%; animation: 6.2569s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 34.8609%; top: 41.7844%; animation: 4.81756s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 53.9736%; top: 1.5457%; animation: 6.59987s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 44.8867%; top: 73.0428%; animation: 5.80406s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 48.1154%; top: 1.76545%; animation: 5.2069s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 5.01299%; top: 23.9863%; animation: 5.9922s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 40.3681%; top: 63.9769%; animation: 4.57402s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 90.1714%; top: 14.2808%; animation: 5.44104s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 67.0902%; top: 32.7062%; animation: 5.20555s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 8.52484%; top: 87.8934%; animation: 4.45149s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 6.76725%; top: 73.8346%; animation: 6.6325s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 15.39%; top: 4.39717%; animation: 3.54024s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 91.514%; top: 78.344%; animation: 6.82775s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 93.0957%; top: 9.33925%; animation: 5.15113s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 11.9179%; top: 11.4037%; animation: 5.40565s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 62.6288%; top: 20.3414%; animation: 3.77544s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 99.2675%; top: 55.7453%; animation: 5.16585s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 69.3496%; top: 70.2943%; animation: 6.76s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 56.6154%; top: 63.1448%; animation: 3.85531s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 73.581%; top: 51.3596%; animation: 6.7508s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 71.5185%; top: 67.9009%; animation: 6.62254s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 38.452%; top: 76.8608%; animation: 4.86423s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 21.6829%; top: 72.7694%; animation: 4.40734s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 27.8418%; top: 82.5327%; animation: 6.81018s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 75.4137%; top: 75.2817%; animation: 4.26467s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 44.7244%; top: 66.7916%; animation: 5.92393s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 17.5288%; top: 43.7953%; animation: 3.26623s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 59.2728%; top: 62.9407%; animation: 5.24846s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 45.8034%; top: 43.5333%; animation: 5.65427s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 69.48%; top: 33.5516%; animation: 6.8563s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 87.8085%; top: 34.0313%; animation: 4.50706s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 84.3746%; top: 60.8288%; animation: 3.43361s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 30.205%; top: 31.5372%; animation: 5.97888s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 15.8556%; top: 11.9385%; animation: 4.56798s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 90.7507%; top: 87.3623%; animation: 5.93429s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 21.8172%; top: 26.1263%; animation: 6.57828s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 69.3764%; top: 35.4414%; animation: 3.00522s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 17.241%; top: 25.1173%; animation: 5.10644s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 40.1226%; top: 64.1514%; animation: 4.23016s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 27.9184%; top: 30.3448%; animation: 4.8379s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 23.4593%; top: 85.2327%; animation: 4.62384s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 96.7413%; top: 94.418%; animation: 5.07107s ease 0s infinite normal none running float;"></div>
+      <div class="dust-particle"
+        style="left: 98.9276%; top: 9.14757%; animation: 6.93352s ease 0s infinite normal none running float;"></div>
+    </div>
+
+    <!-- Main Film Assembly -->
+    <div id="film-assembly" class="relative flex items-center" style="transform: translateX(-200px);">
+      <!-- Film Canister (Reel) -->
+      <div id="canister" class="relative z-30 flex-shrink-0" style="width: 160px; height: 160px;">
+        <!-- Outer Ring -->
+        <div class="canister absolute inset-0 rounded-full">
+          <!-- Spokes -->
+          <div class="absolute inset-4 rounded-full border-4 border-neutral-600"></div>
+          <div class="absolute inset-8 rounded-full border-2 border-neutral-500"></div>
+
+          <!-- Spoke Lines -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="absolute w-full h-0.5 bg-neutral-500"></div>
+            <div class="absolute w-full h-0.5 bg-neutral-800" style="transform: rotate(45deg);"></div>
+            <div class="absolute w-full h-0.5 bg-neutral-800" style="transform: rotate(90deg);"></div>
+            <div class="absolute w-full h-0.5 bg-neutral-800" style="transform: rotate(135deg);"></div>
+          </div>
+        </div>
+
+        <!-- Middle Ring -->
+        <div class="canister-ring absolute rounded-full" style="inset: 20px;"></div>
+
+        <!-- Inner Hub -->
+        <div class="canister-center absolute rounded-full flex items-center justify-center" style="inset: 50px;">
+          <div class="w-4 h-4 rounded-full bg-neutral-900 border border-neutral-700"></div>
+        </div>
+
+        <!-- Film wrapped around canister -->
+        <div id="wrapped-film" class="absolute rounded-full border-8 border-neutral-900 opacity-80"
+          style="inset: 15px; border-color: #1a1a1a;">
+          <div class="absolute inset-0 rounded-full border-4 border-neutral-800"></div>
+        </div>
+
+        <!-- Highlight -->
+        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-white/5 via-transparent to-transparent"></div>
+      </div>
+
+      <!-- Film Strip Container -->
+      <div id="film-container" class="relative" style="margin-left: -20px;">
+        <!-- The actual film strip that grows -->
+        <div id="film-strip" class="film-strip relative overflow-hidden"
+          style="width: 0; height: 120px; transform-origin: left center;">
+          <!-- Top Sprocket Row -->
+          <div id="sprockets-top" class="absolute top-2 left-0 flex gap-3 h-4" style="padding-left: 8px;">
+            <!-- Sprocket holes will be added dynamically -->
+          </div>
+
+          <!-- Film Frames Container -->
+          <div id="film-frames" class="absolute flex gap-2 h-16" style="top: 28px; left: 12px;">
+            <!-- Frames will be added dynamically -->
+          </div>
+
+          <!-- Bottom Sprocket Row -->
+          <div id="sprockets-bottom" class="absolute bottom-2 left-0 flex gap-3 h-4" style="padding-left: 8px;">
+            <!-- Sprocket holes will be added dynamically -->
+          </div>
+
+          <!-- Film edge details -->
+          <div
+            class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-neutral-700 via-neutral-600 to-neutral-700">
+          </div>
+          <div
+            class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-neutral-800 via-neutral-700 to-neutral-800">
+          </div>
+
+          <!-- Curl effect at the end -->
+          <div id="film-curl" class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-black/30"
+            style="transform: perspective(100px) rotateY(-5deg);"></div>
+        </div>
+
+        <!-- Film shadow -->
+        <div id="film-shadow" class="absolute bg-black/40 blur-lg"
+          style="width: 0; height: 40px; top: 100px; left: 20px; border-radius: 50%;"></div>
+      </div>
+    </div>
+
+    <!-- Loading Text -->
+    <div id="loading-text" class="absolute bottom-16 left-1/2 -translate-x-1/2 text-center">
+      <p class="font-mono text-xs tracking-[0.3em] text-neutral-500 uppercase">
+        Unrolling
+      </p>
+      <div class="mt-3 flex gap-1 justify-center">
+        <div class="w-1 h-1 rounded-full bg-neutral-600 animate-pulse" style="animation-delay: 0s;"></div>
+        <div class="w-1 h-1 rounded-full bg-neutral-600 animate-pulse" style="animation-delay: 0.2s;"></div>
+        <div class="w-1 h-1 rounded-full bg-neutral-600 animate-pulse" style="animation-delay: 0.4s;"></div>
+      </div>
+    </div>
+
+    <!-- Counter -->
+    <div id="frame-counter" class="absolute top-8 right-8 font-mono text-xs text-neutral-600">
+      <span class="" id="counter-value">00</span>
+      FT
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="content"
+    class="invisible min-h-screen w-full bg-[#FFFDF3] px-6 py-12 opacity-0 transition-opacity duration-1000 ease-out md:px-12 lg:px-24">
+    <!-- Header -->
+    <header class="flex flex-col gap-8 fade-in-up mb-20">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between items-start">
+        <h1 class="md:text-5xl lg:text-6xl cursor-pointer text-4xl font-medium text-neutral-900 tracking-tight"
+          onclick="window.location.href='index.html'" role="button">
+          Ganesh Partheeban
+        </h1>
+        <div class="flex gap-5 text-base font-semibold text-neutral-900 items-center">
+          <a href="#3-column" class="transition-colors hover:text-neutral-600">
+            Snaps
+          </a>
+          <a href="about.html" class="transition-colors hover:text-neutral-600">
+            About
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <p class="text-xl font-light tracking-wide text-neutral-500">
+          Landscape
+        </p>
+        <!-- <div class="flex items-center gap-4">
+          <button class="hover:text-neutral-900 transition-colors text-neutral-600 pt-1 pr-1 pb-1 pl-1"
+            title="Grid view">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              data-lucide="grid-2x2" class="lucide lucide-grid-2x2 w-5 h-5">
+              <path d="M12 3v18"></path>
+              <path d="M3 12h18"></path>
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            </svg>
+          </button>
+          <button class="p-1 text-neutral-600 hover:text-neutral-900 transition-colors" title="Three column view">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              data-lucide="columns-3" class="lucide lucide-columns-3 w-5 h-5">
+              <rect width="18" height="18" x="3" y="3" rx="2" class=""></rect>
+              <path d="M9 3v18" class=""></path>
+              <path d="M15 3v18" class=""></path>
+            </svg>
+          </button>
+        </div> -->
+      </div>
+    </header>
+
+    <!-- Masonry Grid -->
+    <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/6772480a-30d7-4166-bb78-ad8b0597da4b_3840w.jpg"
+            alt="Planes"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
+            style="">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/e0b865c0-8b18-4216-b141-21dd5cd7bf74_3840w.jpg"
+            alt="Landscape"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
+            style="">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/216089df-8698-4d8d-bac6-c08eaa56727f_3840w.jpg"
+            alt="Leaves"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
+            style="">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/aa8fbd6a-c600-4eba-8564-2c5a06a8c751_1600w.jpg"
+            alt="Fashion"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
+            style="">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/92ea9121-b149-4a76-abe8-20b34d1a42a8_800w.jpg"
+            alt="Sparkler"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5624966c-7b56-4c98-be91-728b4215cbfa_800w.jpg"
+            alt="Night"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/3260b96d-0cce-4a16-95bc-f4ba8e2d5285_800w.jpg"
+            alt="Fireworks"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/04687aaa-444c-437c-bb1f-09559727bca2_800w.jpg"
+            alt="Forest"
+            class="h-auto w-full object-cover grayscale-[40%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0"
+            style="">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/b308ac4f-daa3-4c44-8d9f-95fef1883ef4_800w.jpg"
+            alt="Ocean"
+            class="h-auto w-full object-cover grayscale transition-all duration-1000 ease-out group-hover:scale-105">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/10f08a09-4d13-4613-bce5-c822c7727fe2_800w.jpg"
+            alt="Formation"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/099f39b4-7f4f-4183-b002-bec107c4a5e7_800w.jpg"
+            alt="Duck"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+      </div>
+
+      <div class="break-inside-avoid fade-in-up">
+        <div class="group relative overflow-hidden rounded bg-neutral-100">
+          <div
+            class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
+          </div>
+          <img
+            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/d368b871-44d2-49bd-b0d2-699aa317efee_800w.jpg"
+            alt="Mountains"
+            class="h-auto w-full object-cover grayscale-[30%] transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0">
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-32 border-t border-neutral-200 pb-12 pt-12">
+      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <div class="flex items-center gap-2">
+          <div class="h-2 w-2 rounded-full bg-green-500"></div>
+          <span class="text-xs font-medium text-neutral-500">
+            Available for freelance
+          </span>
+        </div>
+        <p class="text-xs text-neutral-400">© 2026 Ganesh Partheeban.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script class="">
+    lucide.createIcons();
+
+    // Create sprocket holes
+    function createSprocketHole() {
+      const hole = document.createElement('div');
+      hole.className = 'sprocket-hole rounded-sm flex-shrink-0';
+      hole.style.width = '12px';
+      hole.style.height = '16px';
+      hole.style.borderRadius = '2px';
+      return hole;
+    }
+
+    // Create film frame
+    function createFilmFrame(index) {
+      const frame = document.createElement('div');
+      frame.className = 'film-frame rounded flex-shrink-0 overflow-hidden';
+      frame.style.width = '80px';
+      frame.style.height = '64px';
+
+      // Add frame number
+      const frameNum = document.createElement('div');
+      frameNum.className = 'absolute bottom-1 right-1 font-mono text-neutral-600';
+      frameNum.style.fontSize = '8px';
+      frameNum.textContent = String(index + 1).padStart(2, '0');
+      frame.appendChild(frameNum);
+
+      // Random exposure lines
+      if (Math.random() > 0.5) {
+        const line = document.createElement('div');
+        line.className = 'absolute bg-neutral-700';
+        line.style.width = '100%';
+        line.style.height = '1px';
+        line.style.top = Math.random() * 100 + '%';
+        line.style.opacity = '0.3';
+        frame.appendChild(line);
+      }
+
+      return frame;
+    }
+
+    // Create dust particles
+    function createDustParticles() {
+      const container = document.getElementById('dust-container');
+      for (let i = 0; i < 20; i++) {
+        const dust = document.createElement('div');
+        dust.className = 'dust-particle';
+        dust.style.left = Math.random() * 100 + '%';
+        dust.style.top = Math.random() * 100 + '%';
+        dust.style.animationDelay = Math.random() * 5 + 's';
+        dust.style.animationDuration = (3 + Math.random() * 4) + 's';
+        dust.style.animation = `float ${3 + Math.random() * 4}s infinite`;
+        container.appendChild(dust);
+      }
+    }
+
+    // Main animation
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      const filmStrip = document.getElementById('film-strip');
+      const filmShadow = document.getElementById('film-shadow');
+      const canister = document.getElementById('canister');
+      const wrappedFilm = document.getElementById('wrapped-film');
+      const filmAssembly = document.getElementById('film-assembly');
+      const sprocketsTop = document.getElementById('sprockets-top');
+      const sprocketsBottom = document.getElementById('sprockets-bottom');
+      const filmFrames = document.getElementById('film-frames');
+      const content = document.getElementById('content');
+      const body = document.body;
+      const counterValue = document.getElementById('counter-value');
+      const loadingText = document.getElementById('loading-text');
+
+      createDustParticles();
+
+      const screenWidth = window.innerWidth;
+      const targetWidth = screenWidth + 400;
+      const duration = 3500;
+      const startTime = performance.now();
+
+      let sprocketCount = 0;
+      let frameCount = 0;
+      let lastSprocketX = 0;
+      let lastFrameX = 0;
+      let rotation = 0;
+
+      function easeOutExpo(t) {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      }
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function animate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Use custom easing for organic feel
+        const easedProgress = easeInOutCubic(progress);
+        const currentWidth = easedProgress * targetWidth;
+
+        // Update film strip width
+        filmStrip.style.width = currentWidth + 'px';
+        filmShadow.style.width = (currentWidth * 0.9) + 'px';
+
+        // Rotate canister based on "unwound" film length
+        rotation = easedProgress * 2160; // 6 full rotations
+        canister.style.transform = `rotate(${rotation}deg)`;
+
+        // Shrink wrapped film as it unrolls
+        const wrapScale = 1 - (easedProgress * 0.6);
+        wrappedFilm.style.transform = `scale(${Math.max(0.2, wrapScale)})`;
+        wrappedFilm.style.opacity = Math.max(0.2, wrapScale);
+
+        // Move entire assembly to keep canister roughly centered then move left
+        const assemblyX = -200 + (easedProgress * -100);
+        filmAssembly.style.transform = `translateX(${assemblyX}px)`;
+
+        // Add wobble effect based on speed
+        const speed = (currentWidth - lastSprocketX) / 16;
+        const wobble = Math.sin(currentTime * 0.02) * Math.min(speed * 0.1, 2);
+        filmStrip.style.transform = `translateY(${wobble}px) rotate(${wobble * 0.1}deg)`;
+
+        // Add sprocket holes dynamically
+        while (currentWidth > lastSprocketX + 28) {
+          sprocketsTop.appendChild(createSprocketHole());
+          sprocketsBottom.appendChild(createSprocketHole());
+          lastSprocketX += 28;
+          sprocketCount++;
+        }
+
+        // Add film frames dynamically
+        while (currentWidth > lastFrameX + 95) {
+          filmFrames.appendChild(createFilmFrame(frameCount));
+          lastFrameX += 95;
+          frameCount++;
+        }
+
+        // Update counter
+        const feet = Math.floor(easedProgress * 35);
+        counterValue.textContent = String(feet).padStart(2, '0');
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          // Animation complete - transition to content
+          setTimeout(() => {
+            // Fade loading text
+            loadingText.style.opacity = '0';
+            loadingText.style.transition = 'opacity 0.5s ease-out';
+
+            // Wild exit animation
+            filmAssembly.style.transition = 'transform 1s cubic-bezier(0.36, 0, 0.66, -0.56), opacity 0.8s ease-out';
+            filmAssembly.style.transform = 'translateX(-200vw) rotate(-10deg)';
+            filmAssembly.style.opacity = '0';
+
+            setTimeout(() => {
+              loader.style.transition = 'opacity 0.8s ease-out';
+              loader.style.opacity = '0';
+
+              setTimeout(() => {
+                loader.remove();
+                body.classList.remove('loading');
+
+                content.classList.remove('invisible');
+                content.classList.remove('opacity-0');
+
+                const items = document.querySelectorAll('.fade-in-up');
+                items.forEach((item, index) => {
+                  setTimeout(() => {
+                    item.classList.add('visible');
+                  }, 80 * index);
+                });
+              }, 800);
+            }, 600);
+          }, 400);
+        }
+      }
+
+      // Start animation after a brief delay
+      setTimeout(() => {
+        requestAnimationFrame(animate);
+      }, 500);
+    });
+  </script>
+
+</body>
+
+</html>
