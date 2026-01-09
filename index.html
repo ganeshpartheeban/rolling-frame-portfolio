@@ -12,7 +12,7 @@
   <style>
     body {
       font-family: 'Space Grotesk', sans-serif;
-      background-color: #0a0a0a;
+      background-color: #FFFDF3;
       color: #171717;
       overflow-x: hidden;
     }
@@ -44,6 +44,98 @@
     .fade-in-up.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Glassmorphism scroll effect */
+    header {
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    header.glass-header {
+      background-color: rgba(255, 253, 243, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    }
+
+    /* View icon states */
+    .view-icon {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-icon.selected svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .view-icon.selected svg rect {
+      stroke-width: 1.725; /* 15% increase from 1.5 (1.5 * 1.15 = 1.725) */
+    }
+
+    /* Masonry grid */
+    .masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 168px);
+      grid-auto-rows: 100px;
+      gap: 20px;
+      padding: 0 120px;
+      justify-content: end;
+      align-items: start;
+    }
+
+    .category-section {
+      display: contents; /* Allow items to participate in parent grid */
+    }
+
+    .masonry-item {
+      border-radius: 10px;
+      overflow: hidden;
+      width: 168px;
+      display: block;
+    }
+
+    .masonry-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* Alternating heights pattern for aesthetic masonry layout */
+    /* Pattern: Create varied heights - alternating between shorter and longer in each row */
+    /* Each row of 6 items: tall, short, tall, short, tall, short (or variations) */
+    
+    /* Row pattern: 3 spans (tall), 2 spans (short), 3 spans (tall), 2 spans (short), 3 spans (tall), 2 spans (short) */
+    .masonry-item:nth-child(6n+1) {
+      grid-row: span 3;
+    }
+    .masonry-item:nth-child(6n+2) {
+      grid-row: span 2;
+    }
+    .masonry-item:nth-child(6n+3) {
+      grid-row: span 3;
+    }
+    .masonry-item:nth-child(6n+4) {
+      grid-row: span 2;
+    }
+    .masonry-item:nth-child(6n+5) {
+      grid-row: span 3;
+    }
+    .masonry-item:nth-child(6n+6) {
+      grid-row: span 2;
+    }
+
+    .category-margin {
+      grid-column: 1 / -1;
+      height: 200px;
+      width: 100%;
     }
 
     /* Film Strip Styles */
@@ -874,15 +966,15 @@
   <header
     id="navbar"
     class="fixed z-50 flex cursor-pointer top-0 right-0 left-0 items-center justify-between transition-all duration-300"
-    style="background-color: transparent; padding: 32px 60px; opacity: 0; pointer-events: none;">
-    <a href="index.html" class="text-base font-bold text-white tracking-normal">
+    style="background-color: transparent; padding: 32px 60px;">
+    <a href="index.html" class="text-base font-bold text-[#111] tracking-normal">
       Ganesh Partheeban
     </a>
     <nav class="flex gap-8 items-center">
-      <a href="#3-column" class="transition-colors text-base font-bold" style="color: #FFFDF3">
+      <a href="#gallery" class="transition-colors text-base font-bold text-[#111]">
         Snaps
       </a>
-      <a href="about.html" class="transition-colors text-base font-bold" style="color: #FFFDF3">
+      <a href="about.html" class="transition-colors text-base font-bold text-[#111]">
         About
       </a>
     </nav>
@@ -890,35 +982,246 @@
 
   <!-- Main Content -->
   <div id="content"
-    class="invisible min-h-screen w-full bg-[#FFFDF3] px-6 py-12 opacity-0 transition-opacity duration-1000 ease-out md:px-12 lg:px-24">
-    <!-- Header -->
-    <header class="flex flex-col gap-8 fade-in-up mb-20">
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between items-start">
-        <h1 class="md:text-5xl lg:text-6xl cursor-pointer text-4xl font-medium text-neutral-900 tracking-tight"
-          onclick="window.location.href='index.html'" role="button">
-          Ganesh Partheeban
-        </h1>
-        <div class="flex gap-5 text-base font-semibold text-neutral-900 items-center">
-          <a href="#3-column" class="transition-colors hover:text-neutral-600">
-            Snaps
-          </a>
-          <a href="about.html" class="transition-colors hover:text-neutral-600">
-            About
-          </a>
+    class="invisible min-h-screen w-full bg-[#FFFDF3] opacity-0 transition-opacity duration-1000 ease-out relative">
+    <!-- Left Sidebar -->
+    <div id="category-sidebar" class="fixed left-[60px] top-1/2 -translate-y-1/2 z-40 flex flex-col items-start gap-8">
+      <div id="category-name" class="text-[19px] font-bold text-[#111] leading-[20px]">
+        Landscape
         </div>
+      <div class="flex flex-row gap-5 items-center">
+        <!-- Grid View Icon (Selected) -->
+        <div id="grid-view-icon" class="view-icon selected" onclick="switchToGridView()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="7" height="7" stroke="#111" stroke-width="1.725"/>
+            <rect x="14" y="3" width="7" height="7" stroke="#111" stroke-width="1.725"/>
+            <rect x="3" y="14" width="7" height="7" stroke="#111" stroke-width="1.725"/>
+            <rect x="14" y="14" width="7" height="7" stroke="#111" stroke-width="1.725"/>
+          </svg>
       </div>
-      <div class="flex flex-col gap-4">
-        <p class="text-xl font-light tracking-wide text-neutral-500">
-          Photography Portfolio
-        </p>
+        <!-- Three Column Icon (Unselected) -->
+        <div id="column-view-icon" class="view-icon" onclick="switchToColumnView()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="3" width="6" height="18" stroke="#111" stroke-width="1.5"/>
+            <rect x="9" y="3" width="6" height="18" stroke="#111" stroke-width="1.5"/>
+            <rect x="16" y="3" width="6" height="18" stroke="#111" stroke-width="1.5"/>
+          </svg>
       </div>
-    </header>
+      </div>
+    </div>
 
-    <!-- Aviation Section -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-medium text-neutral-900 mb-6 fade-in-up">Aviation</h2>
-      <div class="columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6">
-        <div class="break-inside-avoid fade-in-up">
+    <!-- Gallery Grid -->
+    <div id="gallery" class="masonry-grid pt-24 pb-24" style="padding-top: 120px;">
+
+      <!-- Landscape Images -->
+      <div class="category-section" data-category-section="landscape">
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban--ZKb2pjWQZ0-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-039ANehSz_w-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-aLP_ea3ikGI-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-F7CrmlUrzkE-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-IUSP9qQk3Q0-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-Kjt-xS4f3_8-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-NCiQTt0o3J0-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-PZh1xQ04Yog-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-vA8ljBvUWT4-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-wmz3dXlWgUg-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-XKmapuDimo4-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-y_z1jfVcgnk-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="landscape">
+        <img src="Landscape/ganesh-partheeban-zSsAkjFgaqI-unsplash.jpg" alt="Landscape" loading="lazy">
+      </div>
+      </div>
+
+      <!-- Category Margin -->
+      <div class="category-margin" style="width: 100%; height: 200px; grid-column: 1 / -1;"></div>
+
+      <!-- Aviation Images -->
+      <div class="category-section" data-category-section="aviation">
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-0dWMTeP0VP8-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-51IfbKKcv3g-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-A9pIo2VEI5A-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-AbozKM2qua4-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-BmSE_5BOuJM-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-DcPgeWcb8lE-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-fsdg4sXzNYk-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-JMJHHPcWJ-U-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-L6N2AzlUaoc-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-mIPW_MxLPHg-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-R3QUGXCz3Hw-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-SXCewxbY9_o-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-aoz-whCXwDQ-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-tzfpXye2Qj0-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-xJMx38ObuoE-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="aviation">
+        <img src="Aviation/ganesh-partheeban-z4wQgGY2zWA-unsplash.jpg" alt="Aviation" loading="lazy">
+      </div>
+      </div>
+
+      <!-- Category Margin -->
+      <div class="category-margin" style="width: 100%; height: 200px; grid-column: 1 / -1;"></div>
+
+      <!-- Fireworks Images -->
+      <div class="category-section" data-category-section="fireworks">
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban--ZwLWPkFrqI-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban--ziGmOXibjk-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-3uF3A_4x5wY-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-9tly6fz0iCU-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-A63WhmFz7GA-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-HHV5knT1AQs-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-KH44xwSGXjI-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-Rd7neln3Ymo-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-XJWEiVo8H2g-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-hrsnLfqq5cY-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-okbSewFDplU-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-xpBV-T4z0Uo-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-xsGzXSMlapw-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="fireworks">
+        <img src="Fireworks/ganesh-partheeban-yqTLE5Yd65Q-unsplash.jpg" alt="Fireworks" loading="lazy">
+      </div>
+      </div>
+
+      <!-- Category Margin -->
+      <div class="category-margin" style="width: 100%; height: 200px; grid-column: 1 / -1;"></div>
+
+      <!-- Macro Images -->
+      <div class="category-section" data-category-section="macro">
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-0noqzGcyt7I-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-1-h8HFcdAOY-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-67iefYjS9BI-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-crfSsyKvNxA-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-EIhkyKPh4-0-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-Ezb4rNmgVEo-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-OPmLJ8Cso1Q-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-pjmd_Rt3gpk-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-UKY0PHDqnUc-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="macro">
+        <img src="Macro/ganesh-partheeban-ynTxSkpGdTk-unsplash.jpg" alt="Macro" loading="lazy">
+      </div>
+      </div>
+
+      <!-- Category Margin -->
+      <div class="category-margin" style="width: 100%; height: 200px; grid-column: 1 / -1;"></div>
+
+      <!-- Silhouette Images -->
+      <div class="category-section" data-category-section="silhouette">
+      <div class="masonry-item" data-category="silhouette">
+        <img src="Silhoutte/ganesh-partheeban-Q7ep7cVpyqY-unsplash.jpg" alt="Silhouette" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="silhouette">
+        <img src="Silhoutte/ganesh-partheeban-Z671eKdqy6s-unsplash.jpg" alt="Silhouette" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="silhouette">
+        <img src="Silhoutte/ganesh-partheeban-ZNsF4vb-xJc-unsplash.jpg" alt="Silhouette" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="silhouette">
+        <img src="Silhoutte/ganesh-partheeban-iPodlXI5BIM-unsplash.jpg" alt="Silhouette" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="silhouette">
+        <img src="Silhoutte/ganesh-partheeban-js-ecwqcgow-unsplash.jpg" alt="Silhouette" loading="lazy">
+      </div>
+      <div class="masonry-item" data-category="silhouette">
+        <img src="Silhoutte/ganesh-partheeban-vByC7S7hzD8-unsplash.jpg" alt="Silhouette" loading="lazy">
+      </div>
+    </div>
+
+    <footer class="mt-32 border-t border-neutral-200 pb-12 pt-12">
           <div class="group relative overflow-hidden rounded bg-neutral-100">
             <div
               class="absolute inset-0 z-10 bg-neutral-900/0 transition-colors duration-500 group-hover:bg-neutral-900/5">
@@ -1724,29 +2027,125 @@
       }, 100);
     });
 
-    // Handle navbar background on scroll
+    // Handle navbar glassmorphic effect on scroll
     const navbar = document.getElementById('navbar');
-    let lastScrollTop = 0;
 
     window.addEventListener('scroll', function() {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       
-      if (scrollTop > 0) {
-        navbar.style.backgroundColor = 'rgba(17, 17, 17, 0.2)';
-        navbar.style.backdropFilter = 'blur(10px)';
-        navbar.style.webkitBackdropFilter = 'blur(10px)';
-        navbar.style.opacity = '1';
-        navbar.style.pointerEvents = 'auto';
+      if (scrollTop > 20) {
+        navbar.classList.add('glass-header');
       } else {
-        navbar.style.backgroundColor = 'transparent';
-        navbar.style.backdropFilter = 'none';
-        navbar.style.webkitBackdropFilter = 'none';
-        navbar.style.opacity = '0';
-        navbar.style.pointerEvents = 'none';
+        navbar.classList.remove('glass-header');
+      }
+    });
+
+    // Category scroll detection with sticky behavior and margins
+    const categoryName = document.getElementById('category-name');
+    const categories = [
+      { name: 'Landscape', section: '[data-category-section="landscape"]', items: '[data-category="landscape"]' },
+      { name: 'Aviation', section: '[data-category-section="aviation"]', items: '[data-category="aviation"]' },
+      { name: 'Fireworks', section: '[data-category-section="fireworks"]', items: '[data-category="fireworks"]' },
+      { name: 'Macro', section: '[data-category-section="macro"]', items: '[data-category="macro"]' },
+      { name: 'Silhouette', section: '[data-category-section="silhouette"]', items: '[data-category="silhouette"]' }
+    ];
+
+    function updateCategoryName() {
+      const scrollPosition = window.scrollY;
+      const viewportCenter = scrollPosition + window.innerHeight / 2;
+      const stickyOffset = 150; // Sticky scroll offset for smoother transitions
+      const marginSize = 200; // Margin between categories
+      
+      let currentCategory = categories[0].name;
+      
+      // Check each category from top to bottom
+      for (let i = 0; i < categories.length; i++) {
+        const categorySection = document.querySelector(categories[i].section);
+        const categoryItems = document.querySelectorAll(categories[i].items);
+        
+        if (categorySection && categoryItems.length > 0) {
+          const firstItem = categoryItems[0];
+          const lastItem = categoryItems[categoryItems.length - 1];
+          
+          // Get the actual position considering margins
+          let categoryStart = firstItem.offsetTop;
+          if (i > 0) {
+            // Account for margin before this category
+            categoryStart -= marginSize;
+          }
+          
+          const categoryEnd = lastItem.offsetTop + lastItem.offsetHeight;
+          
+          // Check if viewport center is within this category's range with sticky offset
+          if (viewportCenter >= categoryStart - stickyOffset && viewportCenter <= categoryEnd + stickyOffset) {
+            currentCategory = categories[i].name;
+            break;
+          }
+          
+          // If we've scrolled past this category, check if we should show next category
+          if (scrollPosition > categoryEnd + marginSize / 2) {
+            if (i < categories.length - 1) {
+              // Check if next category is in view
+              const nextCategoryItems = document.querySelectorAll(categories[i + 1].items);
+              if (nextCategoryItems.length > 0) {
+                const nextFirstItem = nextCategoryItems[0];
+                const nextCategoryStart = nextFirstItem.offsetTop - marginSize;
+                
+                if (viewportCenter >= nextCategoryStart - stickyOffset) {
+                  currentCategory = categories[i + 1].name;
+                  break;
+                }
+              }
+            }
+          }
+        }
       }
       
-      lastScrollTop = scrollTop;
+      categoryName.textContent = currentCategory;
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCategoryName();
     });
+
+    window.addEventListener('scroll', updateCategoryName);
+    window.addEventListener('resize', updateCategoryName);
+
+    // View switching functions
+    function switchToGridView() {
+      const gallery = document.getElementById('gallery');
+      gallery.className = 'masonry-grid pt-24 pb-24';
+      gallery.style.paddingTop = '120px';
+      
+      document.getElementById('grid-view-icon').classList.add('selected');
+      document.getElementById('column-view-icon').classList.remove('selected');
+    }
+
+    function switchToColumnView() {
+      const gallery = document.getElementById('gallery');
+      gallery.className = 'columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6 pt-24 pb-24';
+      gallery.style.paddingTop = '120px';
+      gallery.style.paddingLeft = '120px';
+      gallery.style.paddingRight = '120px';
+      
+      // Update masonry items for column layout
+      const items = document.querySelectorAll('.masonry-item');
+      items.forEach(item => {
+        item.className = 'break-inside-avoid fade-in-up';
+        const img = item.querySelector('img');
+        if (img) {
+          img.className = 'h-auto w-full object-cover rounded';
+        }
+      });
+      
+      document.getElementById('grid-view-icon').classList.remove('selected');
+      document.getElementById('column-view-icon').classList.add('selected');
+    }
+
+    // Make functions globally available
+    window.switchToGridView = switchToGridView;
+    window.switchToColumnView = switchToColumnView;
   </script>
 
 </body>
