@@ -170,7 +170,7 @@
   <!-- Grid Container -->
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] h-full w-full gap-4 bg-black">
     <!-- Left Column (20%) - Previous Image + Category Text -->
-    <div class="relative h-full w-full bg-black group overflow-hidden">
+    <div class="relative h-full w-full bg-black group overflow-hidden cursor-pointer" id="leftPanel">
       <!-- Background Image (Previous) -->
       <img id="prevImage" src="" alt="Previous"
         class="group-hover:opacity-80 transition-opacity duration-500 ease-out opacity-50 w-full h-full object-cover absolute top-0 right-0 bottom-0 left-0">
@@ -201,7 +201,7 @@
     </div>
 
     <!-- Right Column (20%) - Next Image -->
-    <div class="relative h-full w-full bg-black group overflow-hidden">
+    <div class="relative h-full w-full bg-black group overflow-hidden cursor-pointer" id="rightPanel">
       <!-- Background Image (Next) -->
       <img id="nextImage" src="" alt="Next"
         class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity duration-500 ease-out">
@@ -374,7 +374,7 @@
       const delta = e.deltaY || e.deltaX;
 
       // Only trigger on significant scroll
-      if (Math.abs(delta) > 10) {
+      if (Math.abs(delta) > 50) {
         isScrolling = true;
 
         if (delta > 0) {
@@ -386,9 +386,20 @@
         // Reset scrolling flag after delay
         setTimeout(() => {
           isScrolling = false;
-        }, 300);
+        }, 800);
       }
     }, { passive: false });
+
+    // Click navigation
+    document.getElementById('leftPanel').addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      navigateBackward();
+    });
+
+    document.getElementById('rightPanel').addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      navigateForward();
+    });
 
     // Keyboard navigation (optional enhancement)
     window.addEventListener('keydown', (e) => {
