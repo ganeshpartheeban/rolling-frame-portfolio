@@ -2092,55 +2092,35 @@
     function updateCategoryName() {
       const scrollPosition = window.scrollY;
       const viewportCenter = scrollPosition + window.innerHeight / 2;
-      const stickyOffset = 150; // Sticky scroll offset for smoother transitions
-      const marginSize = 200; // Margin between categories
 
       let currentCategory = categories[0].name;
 
       // Check each category from top to bottom
       for (let i = 0; i < categories.length; i++) {
-        const categorySection = document.querySelector(categories[i].section);
         const categoryItems = document.querySelectorAll(categories[i].items);
 
-        if (categorySection && categoryItems.length > 0) {
+        if (categoryItems.length > 0) {
           const firstItem = categoryItems[0];
           const lastItem = categoryItems[categoryItems.length - 1];
 
-          // Get the actual position considering margins
-          let categoryStart = firstItem.offsetTop;
-          if (i > 0) {
-            // Account for margin before this category
-            categoryStart -= marginSize;
-          }
+          // Use getBoundingClientRect for accurate positioning in grid layouts
+          const firstRect = firstItem.getBoundingClientRect();
+          const lastRect = lastItem.getBoundingClientRect();
 
-          const categoryEnd = lastItem.offsetTop + lastItem.offsetHeight;
+          const categoryStart = firstRect.top + scrollPosition;
+          const categoryEnd = lastRect.bottom + scrollPosition;
 
-          // Check if viewport center is within this category's range with sticky offset
-          if (viewportCenter >= categoryStart - stickyOffset && viewportCenter <= categoryEnd + stickyOffset) {
+          // Check if viewport center is within this category's range
+          if (viewportCenter >= categoryStart - 300 && viewportCenter <= categoryEnd + 300) {
             currentCategory = categories[i].name;
             break;
-          }
-
-          // If we've scrolled past this category, check if we should show next category
-          if (scrollPosition > categoryEnd + marginSize / 2) {
-            if (i < categories.length - 1) {
-              // Check if next category is in view
-              const nextCategoryItems = document.querySelectorAll(categories[i + 1].items);
-              if (nextCategoryItems.length > 0) {
-                const nextFirstItem = nextCategoryItems[0];
-                const nextCategoryStart = nextFirstItem.offsetTop - marginSize;
-
-                if (viewportCenter >= nextCategoryStart - stickyOffset) {
-                  currentCategory = categories[i + 1].name;
-                  break;
-                }
-              }
-            }
           }
         }
       }
 
-      categoryName.textContent = currentCategory;
+      if (categoryName.textContent !== currentCategory) {
+        categoryName.textContent = currentCategory;
+      }
     }
 
     // Initialize on load
