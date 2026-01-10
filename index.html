@@ -2012,11 +2012,16 @@
     document.addEventListener('DOMContentLoaded', () => {
       // Wait for content to be visible before adding handlers
       setTimeout(() => {
-        const galleryImages = document.querySelectorAll('section img');
+        const galleryImages = document.querySelectorAll('.masonry-item img');
         galleryImages.forEach(img => {
           img.classList.add('gallery-image');
           img.addEventListener('click', () => {
-            openImageModal(img.src, img.alt);
+            // Navigate to detail page with image information
+            const params = new URLSearchParams({
+              src: img.src,
+              alt: img.alt
+            });
+            window.location.href = `detail.html?${params.toString()}`;
           });
         });
       }, 100);
