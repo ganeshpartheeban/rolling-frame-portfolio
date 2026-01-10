@@ -326,33 +326,71 @@
             // Make thumbnail gallery interactive
             const mainImage = document.querySelector('main img');
             const thumbnails = document.querySelectorAll('.flex.gap-5 > div');
+            const galleryContainer = document.querySelector('.overflow-x-auto');
 
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function () {
-                    const thumbImg = this.querySelector('img');
-                    if (thumbImg && mainImage) {
-                        // Update main image with smooth transition
-                        mainImage.style.opacity = '0';
-                        setTimeout(() => {
-                            mainImage.src = thumbImg.src.replace('w=400', 'w=2673');
-                            mainImage.alt = thumbImg.alt;
-                            mainImage.style.opacity = '1';
-                        }, 200);
+            // Helper function to update main image and active state
+            function activateThumbnail(thumbnail) {
+                const thumbImg = thumbnail.querySelector('img');
+                if (!thumbImg || !mainImage) return;
 
-                        // Remove active overlay from all thumbnails
-                        thumbnails.forEach(t => {
-                            const overlay = t.querySelector('.absolute.inset-0');
-                            if (overlay) {
-                                overlay.remove();
-                            }
-                        });
+                // Update main image with smooth transition
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.src = thumbImg.src.replace('w=400', 'w=2673');
+                    mainImage.alt = thumbImg.alt;
+                    mainImage.style.opacity = '1';
+                }, 200);
 
-                        // Add active overlay to clicked thumbnail
-                        const activeOverlay = document.createElement('div');
-                        activeOverlay.className = 'absolute inset-0 bg-white/50';
-                        this.appendChild(activeOverlay);
+                // Remove active overlay from all thumbnails
+                thumbnails.forEach(t => {
+                    const overlay = t.querySelector('.absolute.inset-0');
+                    if (overlay) {
+                        overlay.remove();
                     }
                 });
+
+                // Add active overlay to selected thumbnail
+                const activeOverlay = document.createElement('div');
+                activeOverlay.className = 'absolute inset-0 bg-white/50';
+                thumbnail.appendChild(activeOverlay);
+
+                // Auto-scroll to keep active thumbnail visible
+                if (galleryContainer) {
+                    thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }
+
+            // Add click handlers to thumbnails
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function () {
+                    activateThumbnail(this);
+                });
+            });
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+
+                    // Find currently active thumbnail
+                    let currentIndex = -1;
+                    thumbnails.forEach((thumb, index) => {
+                        if (thumb.querySelector('.absolute.inset-0')) {
+                            currentIndex = index;
+                        }
+                    });
+
+                    // Calculate new index
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : thumbnails.length - 1;
+                    } else {
+                        newIndex = currentIndex < thumbnails.length - 1 ? currentIndex + 1 : 0;
+                    }
+
+                    // Activate the new thumbnail
+                    activateThumbnail(thumbnails[newIndex]);
+                }
             });
         });
 
