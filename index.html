@@ -1277,362 +1277,369 @@
         </div>
       </div>
 
-      <footer class="mt-32 border-t border-neutral-200 pb-12 pt-12">
     </div>
+
+    <footer class="mt-32 border-t border-neutral-200 pb-12 pt-12" style="padding-left: 60px; padding-right: 60px;">
+      <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-2 whitespace-nowrap">
+          <div class="h-2 w-2 rounded-full bg-green-500"></div>
+          <span class="text-sm text-neutral-500">Available for freelance</span>
+        </div>
+        <p class="text-sm text-neutral-400 whitespace-nowrap">© 2026 Ganesh Partheeban</p>
+      </div>
     </footer>
-  </div>
 
-  <script class="">
-    lucide.createIcons();
+    <script class="">
+      lucide.createIcons();
 
-    // Create sprocket holes
-    function createSprocketHole() {
-      const hole = document.createElement('div');
-      hole.className = 'sprocket-hole rounded-sm flex-shrink-0';
-      hole.style.width = '12px';
-      hole.style.height = '16px';
-      hole.style.borderRadius = '2px';
-      return hole;
-    }
-
-    // Create film frame
-    function createFilmFrame(index) {
-      const frame = document.createElement('div');
-      frame.className = 'film-frame rounded flex-shrink-0 overflow-hidden';
-      frame.style.width = '80px';
-      frame.style.height = '64px';
-
-      // Add frame number
-      const frameNum = document.createElement('div');
-      frameNum.className = 'absolute bottom-1 right-1 font-mono text-neutral-600';
-      frameNum.style.fontSize = '8px';
-      frameNum.textContent = String(index + 1).padStart(2, '0');
-      frame.appendChild(frameNum);
-
-      // Random exposure lines
-      if (Math.random() > 0.5) {
-        const line = document.createElement('div');
-        line.className = 'absolute bg-neutral-700';
-        line.style.width = '100%';
-        line.style.height = '1px';
-        line.style.top = Math.random() * 100 + '%';
-        line.style.opacity = '0.3';
-        frame.appendChild(line);
+      // Create sprocket holes
+      function createSprocketHole() {
+        const hole = document.createElement('div');
+        hole.className = 'sprocket-hole rounded-sm flex-shrink-0';
+        hole.style.width = '12px';
+        hole.style.height = '16px';
+        hole.style.borderRadius = '2px';
+        return hole;
       }
 
-      return frame;
-    }
+      // Create film frame
+      function createFilmFrame(index) {
+        const frame = document.createElement('div');
+        frame.className = 'film-frame rounded flex-shrink-0 overflow-hidden';
+        frame.style.width = '80px';
+        frame.style.height = '64px';
 
-    // Create dust particles
-    function createDustParticles() {
-      const container = document.getElementById('dust-container');
-      for (let i = 0; i < 20; i++) {
-        const dust = document.createElement('div');
-        dust.className = 'dust-particle';
-        dust.style.left = Math.random() * 100 + '%';
-        dust.style.top = Math.random() * 100 + '%';
-        dust.style.animationDelay = Math.random() * 5 + 's';
-        dust.style.animationDuration = (3 + Math.random() * 4) + 's';
-        dust.style.animation = `float ${3 + Math.random() * 4}s infinite`;
-        container.appendChild(dust);
-      }
-    }
+        // Add frame number
+        const frameNum = document.createElement('div');
+        frameNum.className = 'absolute bottom-1 right-1 font-mono text-neutral-600';
+        frameNum.style.fontSize = '8px';
+        frameNum.textContent = String(index + 1).padStart(2, '0');
+        frame.appendChild(frameNum);
 
-    // Main animation
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('loader');
-      const filmStrip = document.getElementById('film-strip');
-      const filmShadow = document.getElementById('film-shadow');
-      const canister = document.getElementById('canister');
-      const wrappedFilm = document.getElementById('wrapped-film');
-      const filmAssembly = document.getElementById('film-assembly');
-      const sprocketsTop = document.getElementById('sprockets-top');
-      const sprocketsBottom = document.getElementById('sprockets-bottom');
-      const filmFrames = document.getElementById('film-frames');
-      const content = document.getElementById('content');
-      const body = document.body;
-      const counterValue = document.getElementById('counter-value');
-      const loadingText = document.getElementById('loading-text');
-
-      createDustParticles();
-
-      const screenWidth = window.innerWidth;
-      const targetWidth = screenWidth + 400;
-      const duration = 3500;
-      const startTime = performance.now();
-
-      let sprocketCount = 0;
-      let frameCount = 0;
-      let lastSprocketX = 0;
-      let lastFrameX = 0;
-      let rotation = 0;
-
-      function easeOutExpo(t) {
-        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-      }
-
-      function easeInOutCubic(t) {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      }
-
-      function animate(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Use custom easing for organic feel
-        const easedProgress = easeInOutCubic(progress);
-        const currentWidth = easedProgress * targetWidth;
-
-        // Update film strip width
-        filmStrip.style.width = currentWidth + 'px';
-        filmShadow.style.width = (currentWidth * 0.9) + 'px';
-
-        // Rotate canister based on "unwound" film length
-        rotation = easedProgress * 2160; // 6 full rotations
-        canister.style.transform = `rotate(${rotation}deg)`;
-
-        // Shrink wrapped film as it unrolls
-        const wrapScale = 1 - (easedProgress * 0.6);
-        wrappedFilm.style.transform = `scale(${Math.max(0.2, wrapScale)})`;
-        wrappedFilm.style.opacity = Math.max(0.2, wrapScale);
-
-        // Move entire assembly to keep canister roughly centered then move left
-        const assemblyX = -200 + (easedProgress * -100);
-        filmAssembly.style.transform = `translateX(${assemblyX}px)`;
-
-        // Add wobble effect based on speed
-        const speed = (currentWidth - lastSprocketX) / 16;
-        const wobble = Math.sin(currentTime * 0.02) * Math.min(speed * 0.1, 2);
-        filmStrip.style.transform = `translateY(${wobble}px) rotate(${wobble * 0.1}deg)`;
-
-        // Add sprocket holes dynamically
-        while (currentWidth > lastSprocketX + 28) {
-          sprocketsTop.appendChild(createSprocketHole());
-          sprocketsBottom.appendChild(createSprocketHole());
-          lastSprocketX += 28;
-          sprocketCount++;
+        // Random exposure lines
+        if (Math.random() > 0.5) {
+          const line = document.createElement('div');
+          line.className = 'absolute bg-neutral-700';
+          line.style.width = '100%';
+          line.style.height = '1px';
+          line.style.top = Math.random() * 100 + '%';
+          line.style.opacity = '0.3';
+          frame.appendChild(line);
         }
 
-        // Add film frames dynamically
-        while (currentWidth > lastFrameX + 95) {
-          filmFrames.appendChild(createFilmFrame(frameCount));
-          lastFrameX += 95;
-          frameCount++;
+        return frame;
+      }
+
+      // Create dust particles
+      function createDustParticles() {
+        const container = document.getElementById('dust-container');
+        for (let i = 0; i < 20; i++) {
+          const dust = document.createElement('div');
+          dust.className = 'dust-particle';
+          dust.style.left = Math.random() * 100 + '%';
+          dust.style.top = Math.random() * 100 + '%';
+          dust.style.animationDelay = Math.random() * 5 + 's';
+          dust.style.animationDuration = (3 + Math.random() * 4) + 's';
+          dust.style.animation = `float ${3 + Math.random() * 4}s infinite`;
+          container.appendChild(dust);
+        }
+      }
+
+      // Main animation
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        const filmStrip = document.getElementById('film-strip');
+        const filmShadow = document.getElementById('film-shadow');
+        const canister = document.getElementById('canister');
+        const wrappedFilm = document.getElementById('wrapped-film');
+        const filmAssembly = document.getElementById('film-assembly');
+        const sprocketsTop = document.getElementById('sprockets-top');
+        const sprocketsBottom = document.getElementById('sprockets-bottom');
+        const filmFrames = document.getElementById('film-frames');
+        const content = document.getElementById('content');
+        const body = document.body;
+        const counterValue = document.getElementById('counter-value');
+        const loadingText = document.getElementById('loading-text');
+
+        createDustParticles();
+
+        const screenWidth = window.innerWidth;
+        const targetWidth = screenWidth + 400;
+        const duration = 3500;
+        const startTime = performance.now();
+
+        let sprocketCount = 0;
+        let frameCount = 0;
+        let lastSprocketX = 0;
+        let lastFrameX = 0;
+        let rotation = 0;
+
+        function easeOutExpo(t) {
+          return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
         }
 
-        // Update counter
-        const feet = Math.floor(easedProgress * 35);
-        counterValue.textContent = String(feet).padStart(2, '0');
+        function easeInOutCubic(t) {
+          return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
 
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        } else {
-          // Animation complete - transition to content
-          setTimeout(() => {
-            // Fade loading text
-            loadingText.style.opacity = '0';
-            loadingText.style.transition = 'opacity 0.5s ease-out';
+        function animate(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
 
-            // Wild exit animation
-            filmAssembly.style.transition = 'transform 1s cubic-bezier(0.36, 0, 0.66, -0.56), opacity 0.8s ease-out';
-            filmAssembly.style.transform = 'translateX(-200vw) rotate(-10deg)';
-            filmAssembly.style.opacity = '0';
+          // Use custom easing for organic feel
+          const easedProgress = easeInOutCubic(progress);
+          const currentWidth = easedProgress * targetWidth;
 
+          // Update film strip width
+          filmStrip.style.width = currentWidth + 'px';
+          filmShadow.style.width = (currentWidth * 0.9) + 'px';
+
+          // Rotate canister based on "unwound" film length
+          rotation = easedProgress * 2160; // 6 full rotations
+          canister.style.transform = `rotate(${rotation}deg)`;
+
+          // Shrink wrapped film as it unrolls
+          const wrapScale = 1 - (easedProgress * 0.6);
+          wrappedFilm.style.transform = `scale(${Math.max(0.2, wrapScale)})`;
+          wrappedFilm.style.opacity = Math.max(0.2, wrapScale);
+
+          // Move entire assembly to keep canister roughly centered then move left
+          const assemblyX = -200 + (easedProgress * -100);
+          filmAssembly.style.transform = `translateX(${assemblyX}px)`;
+
+          // Add wobble effect based on speed
+          const speed = (currentWidth - lastSprocketX) / 16;
+          const wobble = Math.sin(currentTime * 0.02) * Math.min(speed * 0.1, 2);
+          filmStrip.style.transform = `translateY(${wobble}px) rotate(${wobble * 0.1}deg)`;
+
+          // Add sprocket holes dynamically
+          while (currentWidth > lastSprocketX + 28) {
+            sprocketsTop.appendChild(createSprocketHole());
+            sprocketsBottom.appendChild(createSprocketHole());
+            lastSprocketX += 28;
+            sprocketCount++;
+          }
+
+          // Add film frames dynamically
+          while (currentWidth > lastFrameX + 95) {
+            filmFrames.appendChild(createFilmFrame(frameCount));
+            lastFrameX += 95;
+            frameCount++;
+          }
+
+          // Update counter
+          const feet = Math.floor(easedProgress * 35);
+          counterValue.textContent = String(feet).padStart(2, '0');
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            // Animation complete - transition to content
             setTimeout(() => {
-              loader.style.transition = 'opacity 0.8s ease-out';
-              loader.style.opacity = '0';
+              // Fade loading text
+              loadingText.style.opacity = '0';
+              loadingText.style.transition = 'opacity 0.5s ease-out';
+
+              // Wild exit animation
+              filmAssembly.style.transition = 'transform 1s cubic-bezier(0.36, 0, 0.66, -0.56), opacity 0.8s ease-out';
+              filmAssembly.style.transform = 'translateX(-200vw) rotate(-10deg)';
+              filmAssembly.style.opacity = '0';
 
               setTimeout(() => {
-                loader.remove();
-                body.classList.remove('loading');
+                loader.style.transition = 'opacity 0.8s ease-out';
+                loader.style.opacity = '0';
 
-                content.classList.remove('invisible');
-                content.classList.remove('opacity-0');
+                setTimeout(() => {
+                  loader.remove();
+                  body.classList.remove('loading');
 
-                // Show navbar after animation completes
-                const navbar = document.getElementById('navbar');
-                navbar.classList.remove('opacity-0');
-                navbar.classList.remove('invisible');
+                  content.classList.remove('invisible');
+                  content.classList.remove('opacity-0');
 
-                const items = document.querySelectorAll('.fade-in-up');
-                items.forEach((item, index) => {
-                  setTimeout(() => {
-                    item.classList.add('visible');
-                  }, 80 * index);
-                });
-              }, 800);
-            }, 600);
-          }, 400);
-        }
-      }
+                  // Show navbar after animation completes
+                  const navbar = document.getElementById('navbar');
+                  navbar.classList.remove('opacity-0');
+                  navbar.classList.remove('invisible');
 
-      // Start animation after a brief delay
-      setTimeout(() => {
-        requestAnimationFrame(animate);
-      }, 500);
-    });
-
-    // Image Modal Functions
-    function openImageModal(imageSrc, imageAlt) {
-      const modal = document.getElementById('imageModal');
-      const modalImage = document.getElementById('modalImage');
-
-      modalImage.src = imageSrc;
-      modalImage.alt = imageAlt;
-
-      // Add active class after a brief delay for animation
-      setTimeout(() => {
-        modal.classList.add('active');
-      }, 10);
-
-      // Prevent body scroll when modal is open
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeImageModal() {
-      const modal = document.getElementById('imageModal');
-      modal.classList.remove('active');
-
-      // Re-enable body scroll
-      document.body.style.overflow = '';
-    }
-
-    // Close modal on ESC key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeImageModal();
-      }
-    });
-
-    // Add click handlers to all gallery images
-    document.addEventListener('DOMContentLoaded', () => {
-      // Wait for content to be visible before adding handlers
-      setTimeout(() => {
-        const galleryImages = document.querySelectorAll('.masonry-item img');
-        galleryImages.forEach(img => {
-          img.classList.add('gallery-image');
-          img.addEventListener('click', () => {
-            // Get category from parent element
-            const category = img.closest('.masonry-item').getAttribute('data-category');
-            // Navigate to detail page with image information and category
-            const params = new URLSearchParams({
-              src: img.src,
-              alt: img.alt,
-              category: category
-            });
-            window.location.href = `detail.html?${params.toString()}`;
-          });
-        });
-      }, 100);
-    });
-
-    // Handle navbar glassmorphic effect on scroll
-    const navbar = document.getElementById('navbar');
-
-    window.addEventListener('scroll', function () {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-      if (scrollTop > 20) {
-        navbar.classList.add('glass-header');
-      } else {
-        navbar.classList.remove('glass-header');
-      }
-    });
-
-    // Category scroll detection with sticky behavior and margins
-    const categoryName = document.getElementById('category-name');
-    const categories = [
-      { name: 'Landscape', section: '[data-category-section="landscape"]', items: '[data-category="landscape"]' },
-      { name: 'Aviation', section: '[data-category-section="aviation"]', items: '[data-category="aviation"]' },
-      { name: 'Fireworks', section: '[data-category-section="fireworks"]', items: '[data-category="fireworks"]' },
-      { name: 'Macro', section: '[data-category-section="macro"]', items: '[data-category="macro"]' },
-      { name: 'Silhouette', section: '[data-category-section="silhouette"]', items: '[data-category="silhouette"]' }
-    ];
-
-    function updateCategoryName() {
-      const scrollPosition = window.scrollY;
-      const viewportCenter = scrollPosition + window.innerHeight / 2;
-
-      let currentCategory = categories[0].name;
-
-      // Check each category from top to bottom
-      for (let i = 0; i < categories.length; i++) {
-        const categoryItems = document.querySelectorAll(categories[i].items);
-
-        if (categoryItems.length > 0) {
-          const firstItem = categoryItems[0];
-          const lastItem = categoryItems[categoryItems.length - 1];
-
-          // Use getBoundingClientRect for accurate positioning in grid layouts
-          const firstRect = firstItem.getBoundingClientRect();
-          const lastRect = lastItem.getBoundingClientRect();
-
-          const categoryStart = firstRect.top + scrollPosition;
-          const categoryEnd = lastRect.bottom + scrollPosition;
-
-          // Check if viewport center is within this category's range
-          if (viewportCenter >= categoryStart - 300 && viewportCenter <= categoryEnd + 300) {
-            currentCategory = categories[i].name;
-            break;
+                  const items = document.querySelectorAll('.fade-in-up');
+                  items.forEach((item, index) => {
+                    setTimeout(() => {
+                      item.classList.add('visible');
+                    }, 80 * index);
+                  });
+                }, 800);
+              }, 600);
+            }, 400);
           }
         }
+
+        // Start animation after a brief delay
+        setTimeout(() => {
+          requestAnimationFrame(animate);
+        }, 500);
+      });
+
+      // Image Modal Functions
+      function openImageModal(imageSrc, imageAlt) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        modalImage.src = imageSrc;
+        modalImage.alt = imageAlt;
+
+        // Add active class after a brief delay for animation
+        setTimeout(() => {
+          modal.classList.add('active');
+        }, 10);
+
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
       }
 
-      if (categoryName.textContent !== currentCategory) {
-        categoryName.textContent = currentCategory;
+      function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('active');
+
+        // Re-enable body scroll
+        document.body.style.overflow = '';
       }
-    }
 
-    // Initialize on load
-    document.addEventListener('DOMContentLoaded', () => {
-      updateCategoryName();
-    });
-
-    window.addEventListener('scroll', updateCategoryName);
-    window.addEventListener('resize', updateCategoryName);
-
-    // View switching functions
-    function switchToGridView() {
-      const gallery = document.getElementById('gallery');
-      gallery.className = 'masonry-grid pt-24 pb-24';
-      gallery.style.paddingTop = '120px';
-
-      document.getElementById('grid-view-icon').classList.add('selected');
-      document.getElementById('column-view-icon').classList.remove('selected');
-    }
-
-    function switchToColumnView() {
-      const gallery = document.getElementById('gallery');
-      gallery.className = 'columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6 pt-24 pb-24';
-      gallery.style.paddingTop = '120px';
-      gallery.style.paddingLeft = '120px';
-      gallery.style.paddingRight = '120px';
-
-      // Update masonry items for column layout
-      const items = document.querySelectorAll('.masonry-item');
-      items.forEach(item => {
-        item.className = 'break-inside-avoid fade-in-up';
-        const img = item.querySelector('img');
-        if (img) {
-          img.className = 'h-auto w-full object-cover rounded';
+      // Close modal on ESC key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeImageModal();
         }
       });
 
-      document.getElementById('grid-view-icon').classList.remove('selected');
-      document.getElementById('column-view-icon').classList.add('selected');
-    }
+      // Add click handlers to all gallery images
+      document.addEventListener('DOMContentLoaded', () => {
+        // Wait for content to be visible before adding handlers
+        setTimeout(() => {
+          const galleryImages = document.querySelectorAll('.masonry-item img');
+          galleryImages.forEach(img => {
+            img.classList.add('gallery-image');
+            img.addEventListener('click', () => {
+              // Get category from parent element
+              const category = img.closest('.masonry-item').getAttribute('data-category');
+              // Navigate to detail page with image information and category
+              const params = new URLSearchParams({
+                src: img.src,
+                alt: img.alt,
+                category: category
+              });
+              window.location.href = `detail.html?${params.toString()}`;
+            });
+          });
+        }, 100);
+      });
 
-    // Navigate to 3-column view with current category
-    function navigateToColumnView() {
-      const categoryName = document.getElementById('category-name').textContent.trim().toLowerCase();
-      window.location.href = `3-column.html?category=${categoryName}`;
-    }
+      // Handle navbar glassmorphic effect on scroll
+      const navbar = document.getElementById('navbar');
 
-    // Make functions globally available
-    window.switchToGridView = switchToGridView;
-    window.switchToColumnView = switchToColumnView;
-    window.navigateToColumnView = navigateToColumnView;
-  </script>
+      window.addEventListener('scroll', function () {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > 20) {
+          navbar.classList.add('glass-header');
+        } else {
+          navbar.classList.remove('glass-header');
+        }
+      });
+
+      // Category scroll detection with sticky behavior and margins
+      const categoryName = document.getElementById('category-name');
+      const categories = [
+        { name: 'Landscape', section: '[data-category-section="landscape"]', items: '[data-category="landscape"]' },
+        { name: 'Aviation', section: '[data-category-section="aviation"]', items: '[data-category="aviation"]' },
+        { name: 'Fireworks', section: '[data-category-section="fireworks"]', items: '[data-category="fireworks"]' },
+        { name: 'Macro', section: '[data-category-section="macro"]', items: '[data-category="macro"]' },
+        { name: 'Silhouette', section: '[data-category-section="silhouette"]', items: '[data-category="silhouette"]' }
+      ];
+
+      function updateCategoryName() {
+        const scrollPosition = window.scrollY;
+        const viewportCenter = scrollPosition + window.innerHeight / 2;
+
+        let currentCategory = categories[0].name;
+
+        // Check each category from top to bottom
+        for (let i = 0; i < categories.length; i++) {
+          const categoryItems = document.querySelectorAll(categories[i].items);
+
+          if (categoryItems.length > 0) {
+            const firstItem = categoryItems[0];
+            const lastItem = categoryItems[categoryItems.length - 1];
+
+            // Use getBoundingClientRect for accurate positioning in grid layouts
+            const firstRect = firstItem.getBoundingClientRect();
+            const lastRect = lastItem.getBoundingClientRect();
+
+            const categoryStart = firstRect.top + scrollPosition;
+            const categoryEnd = lastRect.bottom + scrollPosition;
+
+            // Check if viewport center is within this category's range
+            if (viewportCenter >= categoryStart - 300 && viewportCenter <= categoryEnd + 300) {
+              currentCategory = categories[i].name;
+              break;
+            }
+          }
+        }
+
+        if (categoryName.textContent !== currentCategory) {
+          categoryName.textContent = currentCategory;
+        }
+      }
+
+      // Initialize on load
+      document.addEventListener('DOMContentLoaded', () => {
+        updateCategoryName();
+      });
+
+      window.addEventListener('scroll', updateCategoryName);
+      window.addEventListener('resize', updateCategoryName);
+
+      // View switching functions
+      function switchToGridView() {
+        const gallery = document.getElementById('gallery');
+        gallery.className = 'masonry-grid pt-24 pb-24';
+        gallery.style.paddingTop = '120px';
+
+        document.getElementById('grid-view-icon').classList.add('selected');
+        document.getElementById('column-view-icon').classList.remove('selected');
+      }
+
+      function switchToColumnView() {
+        const gallery = document.getElementById('gallery');
+        gallery.className = 'columns-1 gap-6 sm:columns-2 md:columns-3 lg:columns-3 xl:columns-4 space-y-6 pt-24 pb-24';
+        gallery.style.paddingTop = '120px';
+        gallery.style.paddingLeft = '120px';
+        gallery.style.paddingRight = '120px';
+
+        // Update masonry items for column layout
+        const items = document.querySelectorAll('.masonry-item');
+        items.forEach(item => {
+          item.className = 'break-inside-avoid fade-in-up';
+          const img = item.querySelector('img');
+          if (img) {
+            img.className = 'h-auto w-full object-cover rounded';
+          }
+        });
+
+        document.getElementById('grid-view-icon').classList.remove('selected');
+        document.getElementById('column-view-icon').classList.add('selected');
+      }
+
+      // Navigate to 3-column view with current category
+      function navigateToColumnView() {
+        const categoryName = document.getElementById('category-name').textContent.trim().toLowerCase();
+        window.location.href = `3-column.html?category=${categoryName}`;
+      }
+
+      // Make functions globally available
+      window.switchToGridView = switchToGridView;
+      window.switchToColumnView = switchToColumnView;
+      window.navigateToColumnView = navigateToColumnView;
+    </script>
 
 </body>
 
