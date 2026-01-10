@@ -27,6 +27,11 @@
             scrollbar-width: none;
             /* Firefox */
         }
+
+        /* Smooth transition for main image changes */
+        main img {
+            transition: opacity 0.2s ease-in-out;
+        }
     </style>
     <link id="all-fonts-link-font-geist" rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap">
@@ -317,6 +322,38 @@
                     });
                 }
             }
+
+            // Make thumbnail gallery interactive
+            const mainImage = document.querySelector('main img');
+            const thumbnails = document.querySelectorAll('.flex.gap-5 > div');
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function () {
+                    const thumbImg = this.querySelector('img');
+                    if (thumbImg && mainImage) {
+                        // Update main image with smooth transition
+                        mainImage.style.opacity = '0';
+                        setTimeout(() => {
+                            mainImage.src = thumbImg.src.replace('w=400', 'w=2673');
+                            mainImage.alt = thumbImg.alt;
+                            mainImage.style.opacity = '1';
+                        }, 200);
+
+                        // Remove active overlay from all thumbnails
+                        thumbnails.forEach(t => {
+                            const overlay = t.querySelector('.absolute.inset-0');
+                            if (overlay) {
+                                overlay.remove();
+                            }
+                        });
+
+                        // Add active overlay to clicked thumbnail
+                        const activeOverlay = document.createElement('div');
+                        activeOverlay.className = 'absolute inset-0 bg-white/50';
+                        this.appendChild(activeOverlay);
+                    }
+                });
+            });
         });
 
         lucide.createIcons();
