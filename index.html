@@ -118,7 +118,7 @@
     .masonry-grid {
       display: grid;
       grid-template-columns: repeat(6, 168px);
-      grid-auto-rows: 100px;
+      grid-auto-rows: auto;
       gap: 20px;
       padding: 0 120px;
       justify-content: end;
@@ -169,8 +169,13 @@
       grid-row: span 3;
     }
 
-    /* Aviation & Fireworks: Uniform grid with equal row/column spacing (20px gap) */
-    [data-category-section="aviation"] .masonry-item,
+    /* Aviation: Uniform grid with 25% extra row spacing */
+    [data-category-section="aviation"] .masonry-item {
+      grid-row: span 2 !important;
+      margin-bottom: 5px;
+    }
+
+    /* Fireworks: Uniform grid with equal row/column spacing (20px gap) */
     [data-category-section="fireworks"] .masonry-item {
       grid-row: span 2 !important;
     }
@@ -1112,7 +1117,13 @@
       <!-- Aviation Images -->
       <div class="category-section" data-category-section="aviation">
         <div class="masonry-item" data-category="aviation">
-          <img src="Aviation/ganesh-partheeban-0dWMTeP0VP8-unsplash.jpg" alt="Aviation" loading="lazy">
+          <img src="Aviation/1.jpg" alt="Aviation" loading="lazy">
+        </div>
+        <div class="masonry-item" data-category="aviation">
+          <img src="Aviation/2.jpg" alt="Aviation" loading="lazy">
+        </div>
+        <div class="masonry-item" data-category="aviation">
+          <img src="Aviation/3.jpg" alt="Aviation" loading="lazy">
         </div>
         <div class="masonry-item" data-category="aviation">
           <img src="Aviation/ganesh-partheeban-51IfbKKcv3g-unsplash.jpg" alt="Aviation" loading="lazy">
@@ -1130,16 +1141,7 @@
           <img src="Aviation/ganesh-partheeban-DcPgeWcb8lE-unsplash.jpg" alt="Aviation" loading="lazy">
         </div>
         <div class="masonry-item" data-category="aviation">
-          <img src="Aviation/ganesh-partheeban-fsdg4sXzNYk-unsplash.jpg" alt="Aviation" loading="lazy">
-        </div>
-        <div class="masonry-item" data-category="aviation">
-          <img src="Aviation/ganesh-partheeban-JMJHHPcWJ-U-unsplash.jpg" alt="Aviation" loading="lazy">
-        </div>
-        <div class="masonry-item" data-category="aviation">
           <img src="Aviation/ganesh-partheeban-L6N2AzlUaoc-unsplash.jpg" alt="Aviation" loading="lazy">
-        </div>
-        <div class="masonry-item" data-category="aviation">
-          <img src="Aviation/ganesh-partheeban-mIPW_MxLPHg-unsplash.jpg" alt="Aviation" loading="lazy">
         </div>
         <div class="masonry-item" data-category="aviation">
           <img src="Aviation/ganesh-partheeban-R3QUGXCz3Hw-unsplash.jpg" alt="Aviation" loading="lazy">
@@ -1149,6 +1151,9 @@
         </div>
         <div class="masonry-item" data-category="aviation">
           <img src="Aviation/ganesh-partheeban-aoz-whCXwDQ-unsplash.jpg" alt="Aviation" loading="lazy">
+        </div>
+        <div class="masonry-item" data-category="aviation">
+          <img src="Aviation/ganesh-partheeban-mIPW_MxLPHg-unsplash.jpg" alt="Aviation" loading="lazy">
         </div>
         <div class="masonry-item" data-category="aviation">
           <img src="Aviation/ganesh-partheeban-tzfpXye2Qj0-unsplash.jpg" alt="Aviation" loading="lazy">
