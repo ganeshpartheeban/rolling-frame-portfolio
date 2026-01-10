@@ -100,6 +100,18 @@
     .view-icon.selected svg rect {
       stroke-width: 1.725;
       /* 15% increase from 1.5 (1.5 * 1.15 = 1.725) */
+      stroke: #111;
+    }
+
+    /* Unselected icon color */
+    .view-icon:not(.selected) svg rect {
+      stroke: #6E6E6E;
+    }
+
+    /* Hover effect */
+    .view-icon:hover svg rect {
+      stroke: #111;
+      transition: stroke 0.2s ease;
     }
 
     /* Masonry grid */
@@ -1028,11 +1040,11 @@
           </svg>
         </div>
         <!-- Three Column Icon (Unselected) -->
-        <div id="column-view-icon" class="view-icon" onclick="switchToColumnView()">
+        <div id="column-view-icon" class="view-icon" onclick="navigateToColumnView()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="3" width="6" height="18" stroke="#111" stroke-width="1.5" />
-            <rect x="9" y="3" width="6" height="18" stroke="#111" stroke-width="1.5" />
-            <rect x="16" y="3" width="6" height="18" stroke="#111" stroke-width="1.5" />
+            <rect x="2" y="3" width="6" height="18" stroke="#6E6E6E" stroke-width="1.5" />
+            <rect x="9" y="3" width="6" height="18" stroke="#6E6E6E" stroke-width="1.5" />
+            <rect x="16" y="3" width="6" height="18" stroke="#6E6E6E" stroke-width="1.5" />
           </svg>
         </div>
       </div>
@@ -2170,9 +2182,16 @@
       document.getElementById('column-view-icon').classList.add('selected');
     }
 
+    // Navigate to 3-column view with current category
+    function navigateToColumnView() {
+      const categoryName = document.getElementById('category-name').textContent.trim().toLowerCase();
+      window.location.href = `3-column.html?category=${categoryName}`;
+    }
+
     // Make functions globally available
     window.switchToGridView = switchToGridView;
     window.switchToColumnView = switchToColumnView;
+    window.navigateToColumnView = navigateToColumnView;
   </script>
 
 </body>
