@@ -341,50 +341,32 @@
     const urlParams = new URLSearchParams(window.location.search);
     const urlCategory = urlParams.get('category');
 
-    // Filter images based on category if provided
+    // Always build allImages with ALL categories for closed loop
     let allImages = [];
-    if (urlCategory) {
-      // Find the category (case-insensitive)
-      const category = categories.find(cat =>
-        cat.name.toLowerCase() === urlCategory.toLowerCase()
-      );
+    let startIndex = 0;
 
-      if (category) {
-        // Use only images from this category
-        category.images.forEach(imagePath => {
-          allImages.push({
-            path: imagePath,
-            category: category.name
-          });
-        });
-
-        // Update page title and category text to match
-        categoryTextEl.textContent = category.name;
-      } else {
-        // Fallback to all images if category not found
-        categories.forEach(category => {
-          category.images.forEach(imagePath => {
-            allImages.push({
-              path: imagePath,
-              category: category.name
-            });
-          });
-        });
-      }
-    } else {
-      // No category specified, use all images
-      categories.forEach(category => {
-        category.images.forEach(imagePath => {
-          allImages.push({
-            path: imagePath,
-            category: category.name
-          });
+    // Build array with all categories in order
+    categories.forEach(category => {
+      category.images.forEach(imagePath => {
+        allImages.push({
+          path: imagePath,
+          category: category.name
         });
       });
+    });
+
+    // If URL category provided, find starting index for that category
+    if (urlCategory) {
+      const categoryIndex = allImages.findIndex(img =>
+        img.category.toLowerCase() === urlCategory.toLowerCase()
+      );
+      if (categoryIndex !== -1) {
+        startIndex = categoryIndex;
+      }
     }
 
-    // State management
-    let currentImageIndex = 0;
+    // State management - start at the specified category if provided
+    let currentImageIndex = startIndex;
     const totalImages = allImages.length;
 
     // Helper function to get image at index (with wrapping)
