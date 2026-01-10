@@ -10,8 +10,32 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Neue Machina';
+      src: url('font/NeueMachina-Light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Neue Machina';
+      src: url('font/NeueMachina-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Neue Machina';
+      src: url('font/NeueMachina-Ultrabold.otf') format('opentype');
+      font-weight: 800;
+      font-style: normal;
+      font-display: swap;
+    }
+
     body {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Neue Machina', sans-serif;
       background-color: #FFFDF3;
       color: #171717;
       overflow-x: hidden;
@@ -2016,10 +2040,13 @@
         galleryImages.forEach(img => {
           img.classList.add('gallery-image');
           img.addEventListener('click', () => {
-            // Navigate to detail page with image information
+            // Get category from parent element
+            const category = img.closest('.masonry-item').getAttribute('data-category');
+            // Navigate to detail page with image information and category
             const params = new URLSearchParams({
               src: img.src,
-              alt: img.alt
+              alt: img.alt,
+              category: category
             });
             window.location.href = `detail.html?${params.toString()}`;
           });

@@ -10,8 +10,32 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'Neue Machina';
+            src: url('font/NeueMachina-Light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neue Machina';
+            src: url('font/NeueMachina-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Neue Machina';
+            src: url('font/NeueMachina-Ultrabold.otf') format('opentype');
+            font-weight: 800;
+            font-style: normal;
+            font-display: swap;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Neue Machina', sans-serif;
             background-color: #FFFCF0;
         }
 
@@ -191,8 +215,8 @@
             <span class="text-base font-semibold tracking-tight">Ganesh Partheeban</span>
         </div>
         <div class="pointer-events-auto cursor-pointer group">
-            <a href="index.html"
-                class="transition-opacity group-hover:opacity-60 text-base font-semibold cursor-pointer">Close</a>
+            <a href="index.html" class="transition-opacity group-hover:opacity-60 cursor-pointer"
+                style="font-size: 18px; font-weight: 800;">Close</a>
         </div>
     </header>
 
@@ -205,21 +229,20 @@
 
             <!-- Sidebar Label (Vertically Centered) -->
             <div class="hidden md:flex flex-col justify-center flex-shrink-0 w-32">
-                <h1 class="text-xl font-semibold tracking-tight">Landscape</h1>
+                <h1 style="font-size: 18px; font-weight: 800;">Landscape</h1>
             </div>
 
             <!-- Mobile Label -->
             <div class="md:hidden w-full text-left">
-                <h1 class="text-lg font-semibold tracking-tight">Landscape</h1>
+                <h1 style="font-size: 18px; font-weight: 800;">Landscape</h1>
             </div>
 
             <!-- Main Focused Image -->
             <div class="relative w-full flex-1 flex items-center justify-center">
                 <div class="w-full rounded-2xl overflow-hidden shadow-sm bg-neutral-200"
-                    style="max-height: calc(100vh - 280px);">
+                    style="height: calc(100vh - 280px);">
                     <img src="https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?q=80&amp;w=2673&amp;auto=format&amp;fit=crop"
-                        alt="Fireworks display" class="w-full h-full object-cover"
-                        style="max-height: calc(100vh - 280px);">
+                        alt="Fireworks display" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
@@ -300,32 +323,145 @@
     </main>
 
     <script>
+        // Category to images mapping
+        const categoryImages = {
+            landscape: [
+                'Landscape/ganesh-partheeban--ZKb2pjWQZ0-unsplash.jpg',
+                'Landscape/ganesh-partheeban-039ANehSz_w-unsplash.jpg',
+                'Landscape/ganesh-partheeban-aLP_ea3ikGI-unsplash.jpg',
+                'Landscape/ganesh-partheeban-F7CrmlUrzkE-unsplash.jpg',
+                'Landscape/ganesh-partheeban-IUSP9qQk3Q0-unsplash.jpg',
+                'Landscape/ganesh-partheeban-Kjt-xS4f3_8-unsplash.jpg',
+                'Landscape/ganesh-partheeban-NCiQTt0o3J0-unsplash.jpg',
+                'Landscape/ganesh-partheeban-PZh1xQ04Yog-unsplash.jpg',
+                'Landscape/ganesh-partheeban-vA8ljBvUWT4-unsplash.jpg',
+                'Landscape/ganesh-partheeban-wmz3dXlWgUg-unsplash.jpg',
+                'Landscape/ganesh-partheeban-XKmapuDimo4-unsplash.jpg',
+                'Landscape/ganesh-partheeban-y_z1jfVcgnk-unsplash.jpg',
+                'Landscape/ganesh-partheeban-zSsAkjFgaqI-unsplash.jpg'
+            ],
+            aviation: [
+                'Aviation/ganesh-partheeban-0dWMTeP0VP8-unsplash.jpg',
+                'Aviation/ganesh-partheeban-51IfbKKcv3g-unsplash.jpg',
+                'Aviation/ganesh-partheeban-A9pIo2VEI5A-unsplash.jpg',
+                'Aviation/ganesh-partheeban-AbozKM2qua4-unsplash.jpg',
+                'Aviation/ganesh-partheeban-BmSE_5BOuJM-unsplash.jpg',
+                'Aviation/ganesh-partheeban-DcPgeWcb8lE-unsplash.jpg',
+                'Aviation/ganesh-partheeban-fsdg4sXzNYk-unsplash.jpg',
+                'Aviation/ganesh-partheeban-JMJHHPcWJ-U-unsplash.jpg',
+                'Aviation/ganesh-partheeban-L6N2AzlUaoc-unsplash.jpg',
+                'Aviation/ganesh-partheeban-mIPW_MxLPHg-unsplash.jpg',
+                'Aviation/ganesh-partheeban-R3QUGXCz3Hw-unsplash.jpg',
+                'Aviation/ganesh-partheeban-SXCewxbY9_o-unsplash.jpg',
+                'Aviation/ganesh-partheeban-aoz-whCXwDQ-unsplash.jpg',
+                'Aviation/ganesh-partheeban-tzfpXye2Qj0-unsplash.jpg',
+                'Aviation/ganesh-partheeban-xJMx38ObuoE-unsplash.jpg',
+                'Aviation/ganesh-partheeban-z4wQgGY2zWA-unsplash.jpg'
+            ],
+            fireworks: [
+                'Fireworks/ganesh-partheeban--ZwLWPkFrqI-unsplash.jpg',
+                'Fireworks/ganesh-partheeban--ziGmOXibjk-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-3uF3A_4x5wY-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-9tly6fz0iCU-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-A63WhmFz7GA-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-HHV5knT1AQs-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-KH44xwSGXjI-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-Rd7neln3Ymo-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-XJWEiVo8H2g-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-hrsnLfqq5cY-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-okbSewFDplU-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-xpBV-T4z0Uo-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-xsGzXSMlapw-unsplash.jpg',
+                'Fireworks/ganesh-partheeban-yqTLE5Yd65Q-unsplash.jpg'
+            ],
+            macro: [
+                'Macro/ganesh-partheeban-0noqzGcyt7I-unsplash.jpg',
+                'Macro/ganesh-partheeban-1-h8HFcdAOY-unsplash.jpg',
+                'Macro/ganesh-partheeban-67iefYjS9BI-unsplash.jpg',
+                'Macro/ganesh-partheeban-crfSsyKvNxA-unsplash.jpg',
+                'Macro/ganesh-partheeban-EIhkyKPh4-0-unsplash.jpg',
+                'Macro/ganesh-partheeban-Ezb4rNmgVEo-unsplash.jpg',
+                'Macro/ganesh-partheeban-OPmLJ8Cso1Q-unsplash.jpg',
+                'Macro/ganesh-partheeban-pjmd_Rt3gpk-unsplash.jpg',
+                'Macro/ganesh-partheeban-q-2L63oL3dI-unsplash.jpg',
+                'Macro/ganesh-partheeban-tjr-M0EUxrM-unsplash.jpg'
+            ],
+            silhouette: [
+                'Silhoutte/ganesh-partheeban-1PilsbKmvlI-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-6_O7M1MsLo8-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-aJYiFWsRX0o-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-Dxeb7zQRb1U-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-gY8k9Kg3BsA-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-HQP33scQD94-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-iDFXd4OB_OM-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-KGtBXl2BVi8-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-KuA97SyHgRQ-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-RKW98zINw_Y-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-W0zz6QLWTrE-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-W9aZm3hUQfE-unsplash.jpg',
+                'Silhoutte/ganesh-partheeban-yKobI9cQ8ho-unsplash.jpg'
+            ]
+        };
+
         // Load image from URL parameters
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const imageSrc = urlParams.get('src');
             const imageAlt = urlParams.get('alt');
+            const category = urlParams.get('category');
 
+            // Update the main image if provided
             if (imageSrc) {
-                // Update the main image
                 const mainImg = document.querySelector('main img');
                 if (mainImg) {
                     mainImg.src = imageSrc;
                     mainImg.alt = imageAlt || 'Image';
                 }
+            }
 
-                // Update category name if available from alt text
-                if (imageAlt) {
-                    const categoryHeadings = document.querySelectorAll('h1');
-                    categoryHeadings.forEach(heading => {
-                        heading.textContent = imageAlt;
-                    });
+            // Update category name
+            if (category) {
+                // Capitalize category name
+                const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+                const categoryHeadings = document.querySelectorAll('h1');
+                categoryHeadings.forEach(heading => {
+                    heading.textContent = categoryName;
+                });
+
+                // Build thumbnail gallery from category images
+                if (categoryImages[category]) {
+                    const galleryContainer = document.querySelector('.flex.gap-5');
+                    if (galleryContainer) {
+                        // Clear existing thumbnails
+                        galleryContainer.innerHTML = '';
+
+                        // Create thumbnails for this category
+                        categoryImages[category].forEach(imgPath => {
+                            const thumbnailDiv = document.createElement('div');
+                            thumbnailDiv.className = 'relative h-28 w-48 rounded-xl overflow-hidden cursor-pointer flex-shrink-0 ring-1 ring-black/5 hover:opacity-80 transition-opacity';
+
+                            const img = document.createElement('img');
+                            img.src = imgPath;
+                            img.alt = categoryName;
+                            img.className = 'w-full h-full object-cover';
+
+                            thumbnailDiv.appendChild(img);
+
+                            // Check if this is the clicked image
+                            if (imageSrc && imageSrc.includes(imgPath.split('/').pop())) {
+                                const overlay = document.createElement('div');
+                                overlay.className = 'absolute inset-0 bg-white/50';
+                                thumbnailDiv.appendChild(overlay);
+                            }
+
+                            galleryContainer.appendChild(thumbnailDiv);
+                        });
+                    }
                 }
             }
 
             // Make thumbnail gallery interactive
             const mainImage = document.querySelector('main img');
-            const thumbnails = document.querySelectorAll('.flex.gap-5 > div');
             const galleryContainer = document.querySelector('.overflow-x-auto');
 
             // Helper function to update main image and active state
@@ -336,12 +472,21 @@
                 // Update main image with smooth transition
                 mainImage.style.opacity = '0';
                 setTimeout(() => {
-                    mainImage.src = thumbImg.src.replace('w=400', 'w=2673');
+                    mainImage.src = thumbImg.src;
                     mainImage.alt = thumbImg.alt;
                     mainImage.style.opacity = '1';
+
+                    // Update category name based on alt text
+                    if (thumbImg.alt) {
+                        const categoryHeadings = document.querySelectorAll('h1');
+                        categoryHeadings.forEach(heading => {
+                            heading.textContent = thumbImg.alt;
+                        });
+                    }
                 }, 200);
 
                 // Remove active overlay from all thumbnails
+                const thumbnails = document.querySelectorAll('.flex.gap-5 > div');
                 thumbnails.forEach(t => {
                     const overlay = t.querySelector('.absolute.inset-0');
                     if (overlay) {
@@ -360,38 +505,41 @@
                 }
             }
 
-            // Add click handlers to thumbnails
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function () {
-                    activateThumbnail(this);
-                });
-            });
-
-            // Add keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                    e.preventDefault();
-
-                    // Find currently active thumbnail
-                    let currentIndex = -1;
-                    thumbnails.forEach((thumb, index) => {
-                        if (thumb.querySelector('.absolute.inset-0')) {
-                            currentIndex = index;
-                        }
+            // Add click handlers to thumbnails (after they're created)
+            setTimeout(() => {
+                const thumbnails = document.querySelectorAll('.flex.gap-5 > div');
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', function () {
+                        activateThumbnail(this);
                     });
+                });
 
-                    // Calculate new index
-                    let newIndex;
-                    if (e.key === 'ArrowLeft') {
-                        newIndex = currentIndex > 0 ? currentIndex - 1 : thumbnails.length - 1;
-                    } else {
-                        newIndex = currentIndex < thumbnails.length - 1 ? currentIndex + 1 : 0;
+                // Add keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                        e.preventDefault();
+
+                        // Find currently active thumbnail
+                        let currentIndex = -1;
+                        thumbnails.forEach((thumb, index) => {
+                            if (thumb.querySelector('.absolute.inset-0')) {
+                                currentIndex = index;
+                            }
+                        });
+
+                        // Calculate new index
+                        let newIndex;
+                        if (e.key === 'ArrowLeft') {
+                            newIndex = currentIndex > 0 ? currentIndex - 1 : thumbnails.length - 1;
+                        } else {
+                            newIndex = currentIndex < thumbnails.length - 1 ? currentIndex + 1 : 0;
+                        }
+
+                        // Activate the new thumbnail
+                        activateThumbnail(thumbnails[newIndex]);
                     }
-
-                    // Activate the new thumbnail
-                    activateThumbnail(thumbnails[newIndex]);
-                }
-            });
+                });
+            }, 100);
         });
 
         lucide.createIcons();
