@@ -509,44 +509,6 @@
         padding: 20px !important;
       }
 
-      .nav-desktop {
-        display: none !important;
-      }
-
-      .nav-brand-full {
-        display: none !important;
-      }
-
-      .nav-brand-mobile {
-        display: block !important;
-      }
-
-      .hamburger-menu {
-        display: block !important;
-      }
-
-      /* Mobile menu overlay */
-      #mobile-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: #FFFDF3;
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-        transition: transform 0.3s ease-in-out;
-        transform: translateX(100%);
-      }
-
-      #mobile-menu.active {
-        transform: translateX(0);
-      }
-
       .category-margin {
         height: 100px;
       }
@@ -558,15 +520,7 @@
       }
     }
 
-    @media (min-width: 769px) {
-      .nav-brand-mobile {
-        display: none !important;
-      }
-
-      .hamburger-menu {
-        display: none !important;
-      }
-    }
+    @media (min-width: 769px) {}
   </style>
   <link id="all-fonts-link-font-geist" rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap">
@@ -1122,19 +1076,11 @@
   <header id="navbar"
     class="fixed z-50 flex cursor-pointer top-0 right-0 left-0 items-center justify-between transition-all duration-300 opacity-0 invisible"
     style="background-color: transparent; padding: 32px 60px;">
-    <a href="index.html" class="text-base font-bold text-[#111] tracking-normal nav-brand-full">
+    <a href="index.html" class="text-base font-bold text-[#111] tracking-normal">
       Ganesh Partheeban
     </a>
-    <a href="index.html" class="text-base font-bold text-[#111] tracking-normal nav-brand-mobile hidden">
-      GP
-    </a>
 
-    <!-- Mobile Menu Toggle -->
-    <button id="menu-toggle" class="hamburger-menu hidden p-2" aria-label="Toggle Menu">
-      <i data-lucide="menu" class="w-6 h-6"></i>
-    </button>
-
-    <nav class="flex gap-8 items-center nav-desktop">
+    <nav class="flex gap-8 items-center">
       <a href="#gallery" class="transition-colors text-base font-bold text-[#111]">
         Snaps
       </a>
@@ -1143,17 +1089,6 @@
       </a>
     </nav>
   </header>
-
-  <!-- Mobile Menu Overlay -->
-  <div id="mobile-menu">
-    <button id="menu-close" class="absolute top-6 right-6 p-2" aria-label="Close Menu">
-      <i data-lucide="x" class="w-8 h-8"></i>
-    </button>
-    <div class="flex flex-col items-center gap-8">
-      <a href="#gallery" class="text-3xl font-bold text-[#111]" onclick="toggleMobileMenu()">Snaps</a>
-      <a href="about.html" class="text-3xl font-bold text-[#111]" onclick="toggleMobileMenu()">About</a>
-    </div>
-  </div>
 
   <!-- Main Content -->
   <div id="content"
@@ -1758,43 +1693,15 @@
         window.location.href = `3-column.html?category=${categoryName}`;
       }
 
-      // Mobile Menu Toggle Logic
-      function toggleMobileMenu() {
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenu.classList.toggle('active');
-
-        // Prevent scrolling when menu is open
-        if (mobileMenu.classList.contains('active')) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-        }
+      // Refresh Lucide icons
+      if (window.lucide) {
+        window.lucide.createIcons();
       }
-
-      // Initialize mobile menu listeners
-      document.addEventListener('DOMContentLoaded', () => {
-        const menuToggle = document.getElementById('menu-toggle');
-        const menuClose = document.getElementById('menu-close');
-
-        if (menuToggle) {
-          menuToggle.addEventListener('click', toggleMobileMenu);
-        }
-
-        if (menuClose) {
-          menuClose.addEventListener('click', toggleMobileMenu);
-        }
-
-        // Refresh Lucide icons for mobile menu
-        if (window.lucide) {
-          window.lucide.createIcons();
-        }
-      });
 
       // Make functions globally available
       window.switchToGridView = switchToGridView;
       window.switchToColumnView = switchToColumnView;
       window.navigateToColumnView = navigateToColumnView;
-      window.toggleMobileMenu = toggleMobileMenu;
     </script>
 
 </body>
